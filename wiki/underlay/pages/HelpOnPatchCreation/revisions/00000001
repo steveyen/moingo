@@ -1,0 +1,34 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+HelpContents > HelpForDevelopers > HelpOnPatchCreation
+
+You found a way to fix a bug, and you like moin developer to include your fix, but you don't know how to create a patch. Here is how:
+
+
+== How to make a new patch ==
+
+ 1. Get the latest version of the source and make your edits. MoinMoin:MoinDev/MercurialGuide tells you more.
+ 1. Before you continue ask yourself the following questions:
+  * Is the patch useful to most users? A feature useful for you isn't necessarily useful for everybody.
+  * Is it the MoinMoin:WikiWay? Doing something the !WikiWay is more likely to get included than doing it in any other way.
+  * Is this a good patch? Clean, easy to read and understand code is more likely to be included.
+  * Have you tested the code well enough? Some of the MoinMoin:MoinCoreTeamGroup members like tests for any code, and will not be happy to include new code without tests.
+ 1. Also consider this:
+  * [[MoinMoin:MoinDev/GettingStarted#createplugins|Create extensions if possible]]!
+  * Smaller, cleanly separated patches are much more likely to get included than bigger, mixed ones.
+  * Well documented code. To save time, write clear code that is self-explaining. :-)
+  * User documentation - if you add a feature, add user documentation.
+  * Easy to maintain code - either you or some other developer will have to maintain the code. It should be easy, as we don't have time for this.
+== Patches for current production version ==
+These are only included if:
+ * It fixes a bug,
+ * adds a minor (but useful) feature,
+ * does not introduce new bugs and
+ * is a small, clean patch.
+----

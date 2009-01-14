@@ -1,0 +1,31 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+## page was renamed from WikiCourse/52 Strucure in the wiki
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+= Structure in the wiki =
+== Hierarchy levels ==
+Many conventional websites use very branched structures with many hierarchy levels.
+
+In wikis linking is heavily used. A simpler structure is often used to simplify matters:
+ * all important topics are located in main pages.
+ * only if a topic has many subtopics (which aren't main topics), subpages are used.
+ (!) Sub pages are named as `MainPage/SubPage`
+
+== Conventions ==
+A wiki gives much freedom to the users; there aren't input masks like in database applications, but you can, in principle, do whatever you want and do it however you want.
+
+Of course, you should avoid that to prevent complete chaos. B-)
+
+That's why it's usual for new wikis to think about structures and conventions, such as the:
+ * creation of a basic structure of pages.
+ * definitions of name conventions for page names.
+ * decision to use !CamelCase or free links?.
+ * definitions of important categories.
+
+It's usual for older wikis to simply carry on using existing structures.

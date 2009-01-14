@@ -1,0 +1,25 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+`RandomQuote` macro selects random quotes from list items on this page. See also HelpOnMacros.
+
+Here are few hints for new users, or users that don't like to read the manual:
+
+## FortuneCookies on this page is a self-linked link. It's not a link when it is quoted.
+## To solve this problem, change the format to [:XXXX:XXXX].
+ * Hint: Edit the [[FortuneCookies]] page to display randomly selected wisdom here.
+
+ * Hint: Set your pages language with {{{#language en}}} processing instruction. See also HelpOnLanguages.
+
+ * Hint: Add your favorite pages to your navibar. See your Quicklinks list in your user preferences.
+
+ * Hint: Search for multiple words, just like Google. See also HelpOnSearching.
+
+ * Hint: Get email notification when this page changes, by clicking '''<<GetText(Subscribe)>>'''.
+
+ * Hint: View the edit history on the RecentChanges page by clicking the i column (for information). 

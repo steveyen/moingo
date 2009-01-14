@@ -1,0 +1,9 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+## MoinMoin/TextFormatting was replaced by HelpOnMoinWikiSyntax (which was SyntaxReference before). Please fix your links.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+#redirect HelpOnMoinWikiSyntax

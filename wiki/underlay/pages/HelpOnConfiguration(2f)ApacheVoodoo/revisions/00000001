@@ -1,0 +1,111 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+## page was renamed from ApacheVoodoo
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+<<TableOfContents>>
+
+/!\ Voodoo is not for newbies!
+
+This page gives some nice but advanced tricks for a moin Apache setup. The directives on this page assume that you have knowledge about Apache configuration, newbies should stick to the basic setup.
+
+
+= Apache Root Wiki =
+
+/!\ This requires the Apache module "mod_rewrite" (which should be standard)
+
+An Apache root wiki is easy, but it has limitations. Since moin needs to access certain static files (images, css, etc.), it intercepts a part of the possible WikiName namespace.
+
+ 1. Install moin as normal.
+ 1. Add the following lines to your VirtualHost config:
+  {{{
+  RewriteEngine On
+  RewriteLogLevel 0
+  
+  # Point to moin shared static files - DEPENDS ON MOIN VERSION!
+  RewriteRule ^/moin_static160/(.*)$ /prefix/share/moin/htdocs/$1 [last]
+  
+  # Map everything else to moin cgi script
+  RewriteRule ^(.*)$ /path/to/moin.cgi$1 [type=application/x-httpd-cgi]
+  
+  # Setting for FastCGI
+  ##RewriteRule ^(.*)$ /path/to/moin.fcg$1 [type=application/x-httpd-fcgi]
+}}}
+
+The RewriteRule for Fast''''''CGI here does not work for me: {{{
+[Wed Jan 05 01:43:41 2005] [error] [client 10.0.0.1] File does not exist: /home/apache/moin/wiki/share/moin/pw/moin.fcg/RecentChanges, referer: http://moin.dahoam/StartSeite
+duplo:/home/danielt# ls /home/apache/moin/wiki/share/moin/pw/moin.fcg
+-rwxr-xr-x  1 root  www  1088 Jan  4 23:35 /home/apache/moin/wiki/share/moin/pw/moin.fcg*
+}}}
+
+As a workaround I use this: {{{
+  RewriteRule ^/?(.*) /_Wikiscript_/moin.fcg/$1
+  RewriteRule ^/_Wikiscript_/(.*) /home/apache/moin/wiki/share/moin/pw/$1 [last]
+}}}
+
+
+= Root wiki on Mac OSX =
+/!\ This configuration intercepts all userfolder URLs like ''`http://127.0.0.1/~yourname/`'' and offers a blank wiki page instead, so these instructions are offered as an exercise only. There may be a way around this problem but I don't know what it is.
+
+Using the previous information on the moin OS X installation, you end up with a virtual host block like this:
+{{{
+<VirtualHost *>
+   ServerName Gnarlodious
+   Alias /moin_static160/ /usr/local/share/moin/htdocs/
+   ScriptAlias /mywiki /usr/local/share/moin/mywiki/moin.cgi
+   RewriteEngine On
+   RewriteRule ^/moin_static160/(.*)$ /usr/local/share/moin/htdocs/$1 [last]
+   RewriteRule ^(.*)$ /usr/local/share/moin/mywiki/moin.cgi$1 [type=application/x-httpd-cgi]
+</VirtualHost> 
+}}}
+Remove the following `<IfModule mod_alias.c>` directives added on [[HelpOnInstalling/ApacheOnMacOsx|this page]], as they are now redundant:
+{{{
+    Alias /moin_static160/ "/moinwiki/share/moin/htdocs/"
+    ScriptAlias /mywiki "/moinwiki/share/moin/mywiki/moin.cgi"
+}}}
+Now restart Apache. You should be able to open a URL like http://127.0.0.1/HelpOnInstalling/ApacheOnMacOsx
+
+
+= Root wiki with mod python recipe =
+
+Using the above example, I got this working like this:
+
+ 1. Install moin as usual and create instance
+ 1. Use this config in httpd.conf
+  {{{
+NameVirtualHost 192.115.134.51:80
+<VirtualHost 192.115.134.51:80>
+    ServerName wiki.nirs.dyndns.org
+    ServerAlias wiki
+    
+    # Rewrite urls
+    RewriteEngine On
+    RewriteLogLevel 0
+    # map static files to htdocs
+    RewriteRule ^/moin_static160/(.*)$ /usr/share/moin/htdocs/$1 [last]
+    # map everything else to server script
+    RewriteRule ^(.*)$ /usr/share/moin/mywiki/moinmodpy.py$1
+
+    <Directory "/usr/share/moin/mywiki">
+        # These are copied from the default cgi-bin directory
+        AllowOverride None
+        Options None
+        Order allow,deny
+        Allow from all
+
+        # Modpy stuff
+        AddHandler python-program .py
+        # Add the path to the wiki directory, where moinmodpy.py and 
+        # wikiconfig.py are located.
+        PythonPath "['/usr/share/moin/mywiki'] + sys.path"
+        PythonHandler moinmodpy
+        PythonDebug On 
+    </Directory>
+</VirtualHost>
+}}}
+
+(!) It seems to be impossible to get a root modpy wiki without using the moinmodpy wrapper script.

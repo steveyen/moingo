@@ -1,0 +1,113 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+<<Navigation(siblings)>>
+<<BR>><<BR>>
+<<TableOfContents>>
+
+= EmbedObject =
+This macro is used to Embed an Object into a wiki page-- objects being things usually handled by plug-ins, such as Flash, PDF, or movies. Optional size of the object could be adjusted. Further keywords are dependent on the kind of application.
+
+If the attachment file isn't uploaded yet the attachment line will be shown.
+
+(!) New in 1.6: MoinMoin has new (for some target types rather experimental) transclusion syntax like this: `{{target|desc|params}}`.
+
+== Enabling EmbedObject ==
+
+!EmbedObject is an included standard moin macro. However, for security reasons, mimetypes have to be specifically enabled in your wikiconfig.py to enable !EmbedObject.
+
+ 1. In your wikiconfig.py file, under the "Content options" section, add the following lines: {{{
+    mimetypes_xss_protect = ['text/html', 'application/x-shockwave-flash', 'application/xhtml+xml',] 
+
+    mimetypes_embed = ['application/x-dvi', 'application/postscript', 'application/pdf', 'application/ogg', 'application/vnd.visio', 'image/x-ms-bmp', 'image/svg+xml', 'image/tiff', 'image/x-photoshop', 'audio/mpeg', 'audio/midi', 'audio/x-wav', 'video/fli', 'video/mpeg', 'video/quicktime', 'video/x-msvideo', 'chemical/x-pdb', 'x-world/x-vrml',] 
+}}}
+ 1. You should specifically add and/or remove content types from the {{{mimetypes_embed}}} to only those you need to use on your site. For example, if you need Flash, move the {{{'application/x-shockwave-flash'}}} from the {{{mimetypes_xss_protect}}} to the {{{mimetypes_embed}}} line.
+
+''see related: HelpOnConfiguration ''
+
+'''supported mimetypes:'''
+ . application/x-shockwave-flash
+ . application/x-dvi
+ . application/postscript
+ . application/pdf
+ . application/ogg
+ . application/vnd.visio 
+
+ . image/x-ms-bmp
+ . image/svg+xml
+ . image/tiff
+ . image/x-photoshop
+
+ . audio/mpeg
+ . audio/midi
+ . audio/x-wav
+                
+ . video/fli
+ . video/mpeg
+ . video/quicktime
+ . video/x-msvideo
+                
+ . chemical/x-pdb
+
+ . x-world/x-vrml  
+
+== Syntax & Usage ==
+
+{{{
+<<EmbedObject(attachment[,option][,option])>>
+}}}
+
+
+'''Keyword Parameters:'''
+
+Dependent on the mimetype class a different set of keywords is used from the defaults:
+
+{{{
+  width = None, float
+  height = None, float
+  pagename = None, unicode
+  align = middle
+  alt = ''
+  play = False
+  loop = False
+  quality = high
+  op = True
+  repeat = False
+  autostart = False
+  menu = True
+  hidden = False
+}}}
+
+All mimetypes support width & height parameters.
+
+(!) Since 1.7 MoinMoin supports parsing of units. Known units for the parameter width and height are px, em, pt, in, mm and %.
+
+If you don't give a unit the default of px will be used.
+
+Additionally:
+ . {{{'video'}}} supports  {{{ repeat, autostart, menu, op }}}
+ . {{{'audio'}}} supports  {{{ play, repeat, autostart, op, hidden }}}
+  .        the default width is 60 and default height is 20
+ . {{{'application'}}} supports {{{play, menu, autostart }}}
+
+
+
+== Examples ==
+
+Basic examples:
+{{{
+<<EmbedObject(example.swf)>>
+<<EmbedObject(example.pdf)>>
+<<EmbedObject(example.svg)>>
+}}}
+
+Realistic examples:
+{{{
+<<EmbedObject(testpdf.pdf,width=100%,height=600px)>>
+<<EmbedObject(example.swf,width=637px,height=392px,play=true,loop=true)>>
+}}}

@@ -1,0 +1,59 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:HelpOnAutoAdmin
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+The security policy `autoadmin` included in MoinMoin distribution (but NOT activated by default, see below) is useful when you want to automatically and implicitly give some users or user groups `admin` rights on some pages.
+
+Having `admin` rights means being able to create or change ACLs, see HelpOnAccessControlLists.
+
+= AutoAdmin usage =
+== For a personal homepage ==
+Check if there is a HomepageTemplate with prepared ACL lines or some other already-configured configuration settings.
+
+It is important to ensure your homepage is easily readable and writeable so it can be used as an open form of communication by everyone. 
+       
+The easiest way to create personal (or private) subpages for your homepage is to use the My``Pages action. 
+
+Alternatively you can also do it manually, using the ReadWritePageTemplate, ReadPageTemplate or PrivatePageTemplate. They usually have some prepared ACL line on them, e.g.:
+{{{
+#acl @ ME@/ReadWriteGroup:read,write @ ME@/ReadGroup:read
+}}}
+That @``ME@ in the template will be expanded to your name when saving, so those 2 subpages (`YourName/ReadWriteGroup` and `YourName/ReadGroup`) of your homepage will be used for allowing read/write or read-only access.
+
+Now you only have to maintain those two subpages of your homepage (maybe they even have been auto-created for you) and put the people on them for allowing them access.
+
+== For a project page ==
+See if there is some `<ProjectName>Template` with a prepared ACL line for your project pages and use it for creating new subpages.
+
+Use `<ProjectName>/ReadWriteGroup` and `<ProjectName>/ReadGroup` etc. as you would do for a homepage (see above).
+
+= AutoAdmin configuration and administration =
+== Configuration ==
+Add this to your wiki's configuration file:
+
+{{{
+    # indent the line below like your other settings:
+    from MoinMoin.security.autoadmin import SecurityPolicy
+}}}
+
+Create an AutoAdminGroup page. It is usually a good idea to create an empty page for this.
+
+That page (and also other group pages used with autoadmin, see below) should be ACL protected with write access limited to allowed people. They are used as source for some ACL information and thus should be treated like the ACLs they get fed into.
+
+== Administration ==
+=== Enabling a home page for AutoAdmin ===
+Just add the user name (same as home page name) to the `AutoAdminGroup` page. Alternatively, if you want to enable this feature for all users of some specific group, add the group page name to `AutoAdminGroup`.
+
+All users directly or indirectly on `AutoAdminGroup` will get `admin` rights on their own homepage or subpages of it.
+
+This is needed for the !MyPages action, but can also get used for manual ACL changes.
+
+You also can define some page templates with pre-made ACLs for them to use for new homepages or subpages of it.
+
+=== Enabling another (project) page for AutoAdmin ===
+ 1. Add `<PageName>/AdminGroup` to `AutoAdminGroup`.
+ 1. Also create that `<PageName>/AdminGroup` group definition page and add at least one user or one group to that page, giving them `admin` rights on `<PageName>` or subpages of it.

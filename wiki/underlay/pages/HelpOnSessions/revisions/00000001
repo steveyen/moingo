@@ -1,0 +1,55 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= How sessions work in MoinMoin =
+
+Sessions in MoinMoin are implemented using a special session handler that can be configured in `cfg.session_handler`. By default, an instance of the class `MoinMoin.session.DefaultSessionHandler` is used for managing sessions.
+
+Code using the session framework currently includes:
+ * the superuser "change user" functionality, see HelpOnSuperUser
+ * the visited pages trail
+
+== Session related configuration ==
+|| cookie_domain || `None` || Domain used in the session cookie. ||
+|| cookie_path || `None` || Path used in the session cookie. ||
+|| cookie_lifetime || `12` ||=0: forever, ignore user 'remember_me' setting; >0: n hours, or forever if user checked 'remember_me'; <0 -n hours, ignore user 'remember_me' setting ||
+|| anonymous_session_lifetime || undefined || Set this to a non-zero value to enable anonymous sessions (can be fractional) [hours]. ||
+
+(!) If you run a wiki farm and you want to share the session cookie between farm wikis, you want to change `cookie_domain` and/or `cookie_path`.
+
+(!) If you want anonymous users to get session features (e.g. a trail), set `anonymous_session_lifetime`.
+
+== Replacing session storage ==
+Should you wish to store session data somewhere other than the filesystem cache Moin uses, you can use the `DefaultSessionHandler` along with a different class descending from `DefaultSessionData`. See `MoinMoin/session.py` for more details.
+
+It is also possible but not recommended to use a different session handler altogether.
+
+== Session example code ==
+
+As an extension programmer, in order to use session variables, you can use `request.session` like a dict, values stored there are automatically saved and restored if a session is available. Some more advanced usage is possible, see `MoinMoin.session.SessionData` in the file `MoinMoin/session.py`.
+
+Here's an example macro using the session code:
+{{{
+#!python
+# -*- coding: iso-8859-1 -*-
+
+"""
+    Tests session state.
+"""
+
+Dependencies = ['time']
+
+def execute(macro, args):
+    if macro.request.session.is_new:
+        return macro.formatter.text('Not storing any state until you send a cookie.')
+    if 'test' in macro.request.session:
+        return macro.formatter.text("Loaded value %d" % macro.request.session['test'])
+    import random
+    value = random.randint(1, 100000)
+    macro.request.session['test'] = value
+    return macro.formatter.text("Set to value %d" % value)
+}}}

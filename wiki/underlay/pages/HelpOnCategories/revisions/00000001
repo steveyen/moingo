@@ -1,0 +1,18 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+Categories are an important feature on wikis. Creating a category is easy: you just have to write a category name onto the page and you are done. !MoinMoin even simplifies this by letting you choose from a list of available categories while you are editing the page.
+
+On the page of the category, you can give a brief description of the category's contents. If you want to get a list of all pages in that particular category, either click the title of the category or insert a suitable macro which lists the pages:
+
+ * `<<FullSearch(category:CategorySamples)>>` lists all pages in the category `CategorySamples` (alternative you can use `<<FullSearchCached(@``PAGE@)>>`) (`FullSearchCached` caches the search results and therefore displays a category page quicker and also produces less load for the wiki server, for more information please read HelpOnMacros)
+ * `<<FullSearch(category:CategoryRecipes -category:CategoryCake)>>` lists every recipe if it is not about a cake :-)
+ * See HelpOnSearching for further information about the syntax.
+
+Normally, categories have to be named like `Category``Something`. If you want to allow other patterns like `Catégorie``Gaffeur` (that is French by the way), then the administrator needs to change the configuration option `page_category_regex` according to the users' language, see HelpOnConfiguration.
+
+The best choice is to create category pages from a CategoryTemplate (see HelpOnTemplates).

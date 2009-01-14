@@ -1,0 +1,50 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+## page was renamed from WikiCourse/16 Wiki-intern links
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+= Wiki internal links =
+One of the most important features of the wiki is the internal linking to other wiki pages, therefore it is quite simple.
+
+== WikiNames ("CamelCase") ==
+If you !WriteWordsTogether like !FistnameLastname or CamelCase or MoinMoin, so that there are at least two changes between capital letters and lower case letters, MoinMoin will automatically link this word to the page of the same name.
+
+This is quite simple, because wiki markup isn't necessary. But the unusual syntax isn't everyone's cup of tea, so there is one more alternative, the so-called "free link".
+
+=== Input ===
+{{{
+CamelCase !CamelCaseButNotLinked
+}}}
+
+=== Display ===
+
+CamelCase !CamelCaseButNotLinked
+
+
+== Free links ==
+If you want to link pages, which aren't in CamelCase or if you just don't like CamelCase, you can also link this way:
+
+=== Input ===
+{{{
+A [[free link]] and [[other page|another page]].
+}}}
+
+=== Display ===
+
+A [[free link]] and [[other page|another page]].
+
+= Tracing backwards from links =
+If you click on the page name in the navigation area, the wiki looks for pages which link to this page name.
+
+This can be used for so-called wiki badges. You just write somewhere:
+
+ToDo: Call costumer foobar regarding ...
+
+ToDo is CamelCase, so it links to a homonymous page, which isn't very exiting. :)
+
+(!) But you can click on the page name on the page ToDo and lo and behold, you find every page that also includes a ToDo.

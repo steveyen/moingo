@@ -1,0 +1,17 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+The [[HelpOnActions/AttachFile|AttachFile action]] enables a page to have multiple attached files. Since file uploads could be abused for DoS (Denial of Service) attacks, `AttachFile` is an action that may be disabled by the wiki administrator (by adding `actions_excluded = ['AttachFile']` to wikiconfig).
+
+This is all you usually need to do for configuration.
+
+= How attachments are handled =
+
+Attachments are stored "privately" in the `data/pages/` directory (with paths like `data/pages/<pagename>/attachments/<filename>`) and can only be retrieved by using the Attach''''''File action (via URLs like `http://example.org/mywiki/<SomePage>?action=AttachFile&do=get&target=filename.ext`).
+
+/!\ The `direct serving method` (deprecated since long) was finally removed in moin 1.7.0. If you have used it until now (`attachments = {...}`), please copy your attachments into your data directory (and make sure they arrive at the right location there).

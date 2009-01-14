@@ -1,0 +1,79 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+
+<<Navigation(siblings)>>
+<<BR>><<BR>>
+
+== MonthCalendar ==
+
+This macro is for those who want to use MoinMoin as a Personal Information Manager and need a calendar wiki integration.
+
+=== Example ===
+{{{
+Usage:
+<<MonthCalendar(BasePage,year,month,monthoffset,monthoffset2,height6,anniversary,template)>>
+
+each parameter can be empty and then defaults to currentpage or currentdate or monthoffset=0
+
+
+Samples:
+
+Calendar of Page SampleUser, this year's december: 
+<<MonthCalendar(SampleUser,,12)>>
+
+Calendar of current Page, this year's december:
+<<MonthCalendar(,,12)>>
+
+Calendar of December, 2001:
+<<MonthCalendar(,2001,12)>>
+
+Calendar of the month two months after December, 2001
+(maybe doesn't make much sense, but is possible)
+<<MonthCalendar(,2001,12,+2)>>
+
+Calendar of year 2002 (every month padded to height of 6):
+||||||Year 2002||
+||<<MonthCalendar(,2002,1,,,1)>>||<<MonthCalendar(,2002,2,,,1)>>||<<MonthCalendar(,2002,3,,,1)>>||
+||<<MonthCalendar(,2002,4,,,1)>>||<<MonthCalendar(,2002,5,,,1)>>||<<MonthCalendar(,2002,6,,,1)>>||
+||<<MonthCalendar(,2002,7,,,1)>>||<<MonthCalendar(,2002,8,,,1)>>||<<MonthCalendar(,2002,9,,,1)>>||
+||<<MonthCalendar(,2002,10,,,1)>>||<<MonthCalendar(,2002,11,,,1)>>||<<MonthCalendar(,2002,12,,,1)>>||
+
+Current calendar of me, also showing entries of A and B:
+<<MonthCalendar(MyPage*TestUserA*TestUserB)>>
+
+SubPage calendars:
+<<MonthCalendar(MyName/CalPrivate)>>
+<<MonthCalendar(MyName/CalBusiness)>>
+<<MonthCalendar(MyName/CalBusiness*MyName/CalPrivate)>>
+
+Anniversary Calendars: (no year data)
+<<MonthCalendar(Yearly,,,+1,,1,1)>>
+
+This creates calendars of the format Yearly/MM-DD
+By leaving out the year, you can set birthdays, and anniversaries in this
+calendar and not have to re-enter each year.
+
+This creates a calendar which uses MonthCalendarTemplate for directly editing
+nonexisting day pages:
+<<MonthCalendar(,,,,,,,MonthCalendarTemplate)>>
+}}}
+
+=== Display ===
+
+The simplest version looks like this: 
+<<MonthCalendar>>
+
+The previous month's calendar for page "OtherUser" looks like that:
+<<MonthCalendar(OtherUser,,,-1)>>
+
+see also: HelpOnMacros
+
+=== Usage ===
+
+When an event is entered on a date, that date will be highlighted on the calendar, which you can also mouse over and get a javascript pop-up.
+To get a summary in that pop-up, put the summary in a heading 1 case, like {{{= Big Birthday Today! =}}}

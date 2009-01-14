@@ -1,0 +1,202 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+<<TableOfContents>>
+= moin =
+The `moin` command is installed when you used `setup.py`. If invoking from the shell prompt does not find the `moin` command, you can also customize and use `wiki/server/moin`. Look into that script, there are some pathes to configure.
+
+E.g. if you only have one wiki or one wiki farm on your machine and you configure `sys.path` in the `moin` command script, you do not need to give `--config-dir=...` option with every invocation.
+
+You can also setup logging there if you don't like the builtin logging configuration.
+
+{{{
+usage: moin [command] [general options] command subcommand [specific options]
+
+options:
+  --version           show program's version number and exit
+  -h, --help          show this help message and exit
+  -q, --quiet         Be quiet (no informational messages)
+  --show-timing       Show timing values [default: False]
+  --config-dir=DIR    Path to the directory containing the wiki configuration
+                      files. [default: current directory]
+  --wiki-url=WIKIURL  URL of a single wiki to migrate e.g. localhost/mywiki/
+                      [default: CLI]
+  --page=PAGE         wiki page name [default: all pages]
+
+
+
+moin ... account check ...
+moin ... account create ...
+moin ... account disable ...
+moin ... account resetpw ...
+
+moin ... cli show ...
+
+moin ... export dump ...
+moin ... export package ...
+
+moin ... import irclog ...
+
+moin ... index build ...
+
+moin ... maint cleancache ...
+moin ... maint cleanpage ...
+moin ... maint globaledit ...
+moin ... maint mailtranslators
+moin ... maint makecache ...
+moin ... maint mkpagepacks ...
+moin ... maint reducewiki ...
+
+
+moin ... migration data ...
+
+moin ... xmlrpc mailimport ...
+moin ... xmlrpc remote ...
+
+General options:
+    Most commands need some general parameters before command subcommand:
+    --config-dir=/config/directory
+        Mandatory for most commands and specifies the directory that contains
+        your wikiconfig.py (or farmconfig.py).
+
+    --wiki-url=wiki.example.org/
+        Mandatory for most commands and specifies the url of the wiki you like
+        to operate on.
+
+Specific options:
+    Most commands need additional parameters after command subcommand.
+
+    Sorry, but there is not much docs about that stuff yet, you can check
+    docs/CHANGES and the MoinMoin wiki site for more infos (or just try to
+    invoke some command/subcommand to see if it emits more help).
+    The code you invoke is contained in MoinMoin/script/command/subcommand.py,
+    so just reading the comments / source there might help you, too.
+}}}
+
+example for a default instance
+{{{
+moin --config-dir=/usr/share/moin/mywiki  --wiki-url=http://webserver/mywiki migration data 
+}}}
+== moin ... account check ... ==
+
+{{{
+  --usersunique       Makes user names unique (by appending the ID to name and
+                      email, disabling subscribed pages and disabling all, but
+                      the latest saved user account); default is to SHOW what
+                      will be happening, you need to give the --save option to
+                      really do it.
+  --emailsunique      Makes user emails unique; default is to show, use --save
+                      to save it.
+  --wikinames         Convert user account names to wikinames (camel-case).
+  --lastsaved         Normally the account most recently USED will survive and
+                      the others will be disabled. Using --lastsaved, the
+                      account most recently SAVED will survive.
+  --save              If specified as LAST option, will allow the other
+                      options to save user accounts back to disk. If not
+                      specified, no settings will be changed permanently.
+  --removepasswords   Remove pre-1.1 cleartext passwords from accounts.
+}}}
+
+== moin ... account create ... ==
+{{{
+  --name=NAME          Set the wiki user name to NAME.
+  --alias=ALIAS        Set the wiki user alias name to ALIAS (e.g. the real
+                       name if NAME is cryptic).
+  --email=EMAIL        Set the user's email address to EMAIL.
+  --password=PASSWORD  Set the user's password to PASSWORD (either cleartext
+                       or {SHA1}...).
+}}}
+== moin ... account disable ... ==
+{{{
+  --uid=UID           Disable the user with user id UID.
+  --name=NAME         Disable the user with user name NAME.
+}}}
+
+== moin ... account resetpw ... ==
+{{{
+  --uid=UID           Reset the password of the user with user id UID to the given password
+  --name=NAME         Reset the password of the user with user name to the given password
+}}}
+
+== moin ... cli show ... ==
+
+== moin ... export dump ... ==
+{{{
+  --target-dir=/your/output/path to specify the directory we write the html files to
+  --username=name of the user to perform the dump with
+}}}
+
+== moin ... export package ... ==
+{{{
+  -p PAGES, --pages=PAGES
+                        Comma seperated list of pages to package.
+  -o OUTPUT, --output=OUTPUT
+                        Output file for the package.
+  -s SEARCH, --search=SEARCH
+                        Search string to match.
+  -u PACKAGE_USER, --user=PACKAGE_USER
+                        User as whom the package operation will be performed
+                        as.
+}}}
+To package all user created pages, do not specify --pages or --search.
+
+== moin ... import irclog ... ==
+may be you need a dir with ircfiles
+
+== moin ... index build ... ==
+it's for building the xapian search index. crashs if xapian isn't installed
+
+== moin ... maint cleancache ... ==
+removes cache files
+
+== moin ... maint cleanpage ... ==
+create a Linux shell script that can be used (after reviewing it) to clean up in the data_dir.
+
+It tries to classify the page directories into classes like trash and deleted and it will move those page dirs from their usual place to 2 directories (you have to create them!) trash and deleted.
+
+== moin ... maint globaledit ... ==
+This is primarily for moin development use for globally editing pages in a wiki (we use it for streamlining ACLs and metadata on the master wiki). If you like to use it, please read the sourcecode first.
+
+== moin ... maint mailtranslators ... ==
+For moin development use only (mails the translators to notify them e.g. about a new release).
+
+== moin ... maint makecache ... ==
+creates cache files based on event-log and pagelinks
+
+== moin ... maint mkpagepacks ... ==
+NEVER EVER RUN THIS ON A REAL WIKI!!! This must be run on a local testwiki
+
+== moin ... maint reducewiki ... ==
+{{{
+moin --config-dir=/usr/share/moin/mywiki  --wiki-url=localhost/mywiki  maint reducewiki --target-dir=/tmp/target
+}}}
+== moin ... migration data ... ==
+migrates data of pages to a newer version
+{{{
+moin --config-dir=/usr/share/moin/mywiki  --wiki-url=http://wikiserver/mywiki migration data 
+}}}
+== moin ... server standalone ... ==
+Starts the standalone server (and offers more options that just using ./wikiserver.py).
+{{{
+# See there for more infos:
+moin server standalone --help
+}}}
+== moin ... xmlrpc mailimport ... ==
+e.g.
+{{{
+# This is the configuration file for the mail import client
+
+# This secret has to be known by the wiki server
+mail_import_secret = u"foo"
+
+# The target wiki URL
+mail_import_url = u"http://localhost/?action=xmlrpc2"
+}}}
+
+== moin ... xmlrpc remote ... ==
+needs a remotescriptconf.py

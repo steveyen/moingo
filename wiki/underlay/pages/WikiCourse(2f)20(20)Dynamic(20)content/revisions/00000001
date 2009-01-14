@@ -1,0 +1,25 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+
+(!) ''The following four chapters are about advanced details. If you don't care about this, you can just [[../30 The graphical editor|skip]] them.''
+
+= Dynamic content =
+MoinMoin is built in a quite modular way, so its functions are expandable by using plug-ins. Macros, parsers, actions, etc. can either be built-in, included, or installed as a plug-in.
+
+== Macros ==
+A macro is entered as wiki markup and it processes a few parameters to generate an output, which is displayed in the content area.
+
+== Parsers ==
+A parser is entered as wiki markup and it processes a few parameters and a multiline block of text data to generate an output, which is displayed in the content area.
+
+== Actions ==
+An action is mostly called using the menu (or a macro) and generates a complete HTML page on its own.
+
+##(!) Examples are on the following pages...

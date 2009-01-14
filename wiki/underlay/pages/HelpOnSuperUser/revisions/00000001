@@ -1,0 +1,23 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+## page was renamed from SuperUser
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+A '''!SuperUser''' is a user with the permission to do wiki-wide operations like:
+
+ * Use despam action to mass revert edits of some user (see HelpOnSpam).
+ * Use the !SystemAdmin macro (see HelpOnMacros).
+ * Use !SystemInfo macro (see HelpOnMacros), showing more details than for a non-priviledged user.
+ * Use !WikiConfig macro (see HelpOnMacros), showing configuration details of the wiki.
+ * Make full backups.
+ * Install software, install packages (see HelpOnPackageInstaller).
+ * Install language packages via SystemPagesSetup.
+ * In their settings screen, they have a list of other users they can temporarily "become" in order to e.g. help those users or even disable their account. Logging out returns to the superuser account (see HelpOnUserHandling).
+
+(!) Do not confuse a superuser with someone having the "admin" ACL right. The "admin" ACL right just means to be able to set/change/remove ACLs on some or all pages, while being superuser means to be able to do the above mentioned stuff - globally.
+
+The people being superuser need to be much more trusted (than people with "admin" ACL right) due to this - usually the ones who install the wiki put themselves into the `superuser` list in the wiki config (see HelpOnConfiguration).

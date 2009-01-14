@@ -1,0 +1,60 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:None
+##master-date:None
+#acl -All:write Default
+#format wiki
+#language en
+
+
+<<TableOfContents>>
+
+= How to create a new page =
+## We should test this section with beginners
+## Beginner
+
+You create a new page by visiting the page. If the page does not exists, Moin``Moin will suggest to create it. There are several ways to create a new page:
+
+
+== By Adding a link on another page ==
+ 1. Edit another page
+ 1. Add a link to the new page, either as a WikiName or as `[[Name With Spaces]]`
+ 1. Save the page and click the new link
+ 1. Click one of the template names
+ 1. Edit your new page and save it
+
+For more information on linking to other pages, see HelpOnLinking.
+
+== By visiting the page ==
+## Can a complete beginner use this?
+
+ 1. Enter the address of the new page, e.g `http://example.com/wiki/MyNewPage` in the browser location box and press Enter
+ 1. Click one of the template names
+ 1. Edit your new page and save it
+
+ (!) Might not work on all browsers if the page name contains non ASCII characters.
+
+== By using the NewPage macro ==
+
+If the current page uses the `NewPage` macro:
+ 1. Enter the page name in the text box and click "<<GetText(Create New Page)>>"
+ 1. Edit your page and save it
+
+Example:
+ <<NewPage(HelpTemplate)>>
+
+The `NewPage` macro makes it easy to create new pages in one step by using certain templates or automatically creating a sub page. For more help on the `NewPage` macro, see HelpOnMacros.
+
+== By using the GoTo macro ==
+
+If the current page uses the `GoTo` macro:
+ 1. Enter the page name in the text box and click "<<GetText(Go To Page)>>"
+ 1. Click "Create new page"
+ 1. Edit your page and save it
+
+Example:
+ <<GoTo>>
+== Other ways to create pages ==
+## Advanced
+ * To learn about creating and using template pages see HelpOnTemplates.
+ * To learn more how to set variables see HelpOnVariables

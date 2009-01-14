@@ -1,0 +1,102 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:None
+##master-date:None
+#acl -All:write Default
+#format wiki
+#language en
+HelpContents > HelpForAdministrators > HelpOnConfiguration > HelpOnThemes
+
+MoinMoin has a theme plugin system that makes it easy to change the look and feel without touching the core code. As a user you can choose between different themes that are pre-installed<<FootNote(On a standard !MoinMoin installation these are "classic", "modern" and "rightsidebar" )>> As a user you may be able to change the theme you can view by going to the user preferences (it does not work if the wiki administrator has forced a specific theme, disabling the ability to change the theme).
+
+
+<<TableOfContents>>
+
+
+== Installing Themes ==
+
+You can find additional themes if you visit MoinMoin:ThemeMarket and download the archives there. Please make sure that the theme you choose is compatible with your version of !MoinMoin!
+
+You can not just copy the whole directory to a themes directory. That will not work. To install a new theme follow the instructions by the theme author. Generally you have two different locations:
+
+ 1. The directory where all themes reside
+  * Unpack the archive and put the theme directory here (containing two directories: `css/` and `img/`).
+ 1. The `data/plugin/theme` directory 
+  * move the theme script here (that has the same name as the theme but with a `.py` ending).
+
+Your theme should be available now. Maybe you have to relogin or clear the cache to see it. For configuration options please go to HelpOnConfiguration. 
+
+== Customize Themes ==
+
+You can customize the pre-installed theme but it is much better to start with a copy. To do this make the following steps (we take theme `modern` as an example):
+
+ 1. Make a copy of the 'modern' theme in the themes directory and call it make 'mytheme' 
+ 1. Copy the script of this theme `MoinMoin/theme/modern.py' to `data/plugins/theme/mytheme.py'
+ 1. Edit the file 'mytheme.py' and change at least the variable {{{name = "modern"}}} to {{{{name ="mytheme"}}}
+ 1. Then you should be able to see your new theme. In a selfrunning MoinMoin you might need to restart the server.
+ 1. After that start editing the files in the themes directory.
+
+Where the theme directory is located depends on the installation of the wiki (see HelpOnInstalling for details).
+
+
+The best way to change the visual appearance of your wiki site is by inherting the default MoinMoin styles and only changing those things you want to adapt to your likings. This avoids the work involved in copying new styles added during development to your own stylesheets. To do this, we use the CSS `@import`  mechanism like this:
+{{{
+@import url("/moin_static170/modern/css/common.css");
+
+h1,h2,h3,h4,h5 {
+    background-color: #88CCFF;
+}
+}}}
+
+In the first line, we import the default common styles as distributed with MoinMoin.
+You may have to change the URL to fit your system setup and/or MoinMoin version.
+
+In the following lines, we change the background color of headlines. And that's it.
+
+For more see the [[http://css-discuss.incutio.com/|css-discuss]] wiki.
+
+For a very clever idea to make CSS ''wiki editable'', see [[http://esw.w3.org/topic/plain.css|plain.css]].
+
+
+== Modify wiki configuration  ==
+|| page_footer1 || `""` || Custom HTML markup sent ''before'' the system footer. ||
+|| page_footer2 || `""` || Custom HTML markup sent ''after'' the system footer. ||
+|| page_header1 || `""` || Custom HTML markup sent ''before'' the system header / title area but ''after'' the body tag. ||
+|| page_header2 || `""` || Custom HTML markup sent ''after'' the system header / title area (and body tag). ||
+|| stylesheets || `[(media, csshref), ...]` || List of tuples (media, csshref) to insert after theme css, before user css. ||
+|| html_head || `""` || Additional <HEAD> tags for all pages ||
+|| html_head_posts || robots: noindex,nofollow || Additional <HEAD> tags for POST requests ||
+|| html_head_index || robots: index,follow || Additional <HEAD> tags for some few index pages ||
+|| html_head_normal || robots: index,nofollow || Additional <HEAD> tags for most normal pages ||
+|| html_head_queries || robots: noindex,nofollow || Additional <HEAD> tags for requests with query strings, like actions ||
+
+You can customize your wiki by modifying the wiki configuration as follows:
+
+ 1. head
+  * config.html_head is added into the <head> element for ''all'' pages, while
+ 1. body
+  * you can use some html fragments to customize moin's output (we are referring to `classic` theme, others could differ) - here is the sequence how stuff is output:
+  * header:
+   * config.page_header1
+   * config.logo_string - use this to modify the logo (usually at top left)
+   * username, title
+   * iconbar
+   * config.navi_bar - is a list of page names that are added to the title area, if None, add no navigation bar.
+   * trail
+   * config.page_header2
+   * msg
+  * wiki page
+  * footer:
+   * config.page_credits
+   * config.page_footer1
+   * Edit``Text, search forms, actions
+   * config.page_footer2
+
+ 1. as a wiki user, you can override theme CSS settings by putting your own user CSS URL into your user preferences - this CSS is loaded after the theme CSS, so you can override all you want changed. Your CSS file must be in UTF-8 encoding (ASCII is OK, too, as it is a subset of UTF-8).
+
+`page_header1`, `page_header2`, `page_footer1` and `page_footer2` can now be callables and will be called with the "request" object as a single argument (note that you should accept any keyword arguments in order to be compatible to future changes).
+
+== Make a new Theme ==
+
+If you wish you can also create a new theme. The best way is to copy an existing theme like `modern`. You will also have to rename the theme script and change the variable `name` inside this script. If you are a Python programmer you can also start writing a new user interface by writing a new theme script for your theme. When you upgrade MoinMoin, your own themes are not touched - it will work with the new version, or needs only small changes due to theme API changes. (For more see also MoinMoin:MoinDev/ThemeDevelopment)
+----

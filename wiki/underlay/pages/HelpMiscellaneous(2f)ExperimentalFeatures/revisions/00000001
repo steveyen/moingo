@@ -1,0 +1,19 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+This page describes features that are not yet completed or need practical testing before they are added to the standard feature set. They may disappear or be changed substantially!
+
+
+== Bidirectional language support ==
+
+ * `language_default` (in wikiconfig) sets the default language of a wiki's ''content''
+   * the HTML `lang` attribute of a page's `BODY` tag is set to this language
+ * for each language MoinMoin supports in its user interface, a correspondent `<<lang>>` macro exists, e.g. `<<en>>`
+   * this macro sets HTML `lang` attributes for paragraphs etc.
+   * it also changes the text direction
+
+See also MoinMoin:BetterHebrewSupport.

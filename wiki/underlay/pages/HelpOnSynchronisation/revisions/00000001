@@ -1,0 +1,47 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+Synchronizing two wikis can be a good thing for some circumstances like mirroring one wiki or for backup purposes. It can also be used if you want a version on your mobile device to access the data without having to be online.
+
+<<TableOfContents>>
+
+= Objective =
+Synchronising wikis partly or fully aiming at two instances having the same content (not necessarily the same page history) while avoiding conflicts and supporting merging, supported by a GUI with good usability. There is no need for a bi-directional connection, the initiating wiki just needs HTTP access to the remote wiki.
+
+= Usage =
+The first step is to register the remote wiki with an InterWiki name. This can either be done on the page InterWikiMap or in the file `intermap.txt` (see HelpOnConfiguration).
+
+Then it is necessary to create a kind of "job page" that contains all parameters for the synchronisation. This page will be extended by the log of the sync process as well. See below for allowed parameters. The parameters have to be written in the dictionary format (see HelpOnDictionaries). It is generally a nice example and helpful to use the page ''SyncJobTemplate'' that already has some parameters in it.
+
+After that, you can simply select <<GetText(SyncPages)>> from the dropdown menu and start the synchronisation.
+
+= Configuration =
+(!) Please check the remote wiki's wiki config for `actions_excluded` - the builtin default of it (see `$PathToYourPythonInstall$/MoinMoin/config/multiconfig.py, e.g. /usr/local/lib/python2.5/site-packages/MoinMoin/config/multiconfig.py`) disables some actions, including xmlrpc (this default was chosen to not open your wiki to automatic read/write access by xmlrpc except if you really decide to want that). To allow xmlrpc (wikisync is based on xmlrpc, so it won't work if you don't allow it), remove `'xmlrpc'` from the exclusion list. 
+
+(!) You may want to protect your wiki by using ACL rules.
+
+Besides ''remoteWiki'', all other parameters are optional. Those parameters must be stored as MoinMoin:WikiDict in the job page.
+
+   remoteWiki:: InterWiki moniker/name of the remote wiki. Note that it has to match the interwiki name that has been configured by the admin of the remote wiki. You will see an error message if this is not the case.
+   remotePrefix:: Is prepended to the remote pagename when searching for pages/sending pages. So if you do not want to clutter the global namespace of the remote wiki, you can set a prefix to create all your pages as subpages of another page in the remote wiki.
+   localPrefix:: Is prepended to the local pagename when receiving new pages. This is mainly useful if you do not want to let the remote pages clutter your global name space. You can use it to aggregate different wiki sites into your local one.
+   pageMatch:: If defined, it describes, using a regular expression, the pages which should be transferred.
+   pageList:: If defined, only these (local or remote) pages are transferred. Matching is not used in this case. Page names have to be separated by commas, other syntax like `[[` should not be used.
+   groupList:: If defined, only these page local groups and all referred pages are transferred. Neither matching nor ''pageList'' is used in this case. Note that these group pages are not resolved recursively. The syntax is the same as the `pageList`'s one.
+   direction:: This is either ''Down'' or ''Both'' (it is not case-sensitive). `Down` means that local changes are not written to the remote wiki. Note that `Down` is slower and more bandwith-consuming in some cases.
+   user:: The username that should be used to authenticate in the remote wiki.
+   password:: The password that should be used to authenticate in the remote wiki. /!\ Do not supply the password on the page if you cannot make sure that nobody else will be able to read it! Rather just set the `user` - MoinMoin will ask you for the password automatically.
+
+= Some rules =
+ * As written above, page history is not transferred, only the delta (as a merge). So you will not see any comments made in the other wiki etc.
+ * You are able to start the synchronisation in both wikis.
+ * Pages on which the conflicts have not been solved are not synchronised. They are synchronised if one side solved the conflict.
+ * Renamed pages cannot be synchronised (this is not supported yet).
+ * Attachments are currently not transferred (this might change when attachments become items in the future).
+
+= Notes for novices =
+ * Remember that when setting the interwiki name in wikiconfig.py, use unicode notation e.g. interwikiname = u'mywiki'

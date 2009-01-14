@@ -1,0 +1,91 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+HelpContents > HelpOnAdministration > HelpOnUpdating 
+
+'''Index'''
+<<TableOfContents>>
+
+== General procedures ==
+=== Download and unpack the new MoinMoin archive ===
+Download the MoinMoin code that you are interested in updating to. If you are not a developer, this is usually the latest released version from the project homepage.
+
+(!) Often it is better (and easy enough) to install ''latest'' release from distribution archive than relying on some outdated package provided by your Linux distribution. Some people use moin as a package, because they hope for easy upgrades and security fixes. But often, there are either no upgrades or they are not easy and in the worst case, there are not even security fixes.
+
+
+=== Reading the docs ===
+Please read the files `docs/CHANGES` and `docs/README.migration` contained in the moin distribution archive for details on what changed and how to upgrade.
+
+/!\ The docs might contain import installation, compatibility and upgrade hints we won't repeat here.
+
+=== Backup ===
+
+/!\ '''Before you update an existing wiki, MAKE A BACKUP!'''
+
+You have been warned, and it's not our fault when you end up like this: X-( 
+
+As you want to make a ''complete'' backup (not even losing a single edit), you want to stop your wiki server process now.
+
+This is what you should backup (the real paths depend on your installation):
+ * The directory containing the MoinMoin code files (e.g. {{{/usr/lib/python*.*/site-packages/MoinMoin}}})
+   * (!) after you have a backup of this, you might want to delete the `MoinMoin` directory there to avoid having old code files there that are not overwritten by the new code, but maybe interfering with it)
+ * The directory containing your data (e.g. {{{/usr/share/moin/wikiname/data}}} - see data_dir in your moin_config.py). 
+ * your moin.cgi file (or moin.fcg or other adaptor file you use)
+ * your wikiconfig.py or farmconfig.py or other wiki configuration files
+ * your web server configuration files
+ * optionally you can also backup your underlay_data_dir (it shouldn't contain data from you, but it is maybe easier to rollback if you have a backup of it and don't need to get it from some other place)
+
+=== Code update ===
+First remove the old MoinMoin code (including any `*.pyc` and `*.pyo` files).
+
+If you are installing from the original distribution archive, run "{{{python setup.py install}}}" as root to install the new version.
+
+If you are using some Linux (or other) distributor's package, please read their docs.
+
+Please also upgrade your moin.cgi (or moin.wsgi or other) server adaptor file. You likely have to edit it to fix some pathes and you also need to set some specific user/group/mode on that file (just look at the old one before replacing it).
+
+=== Configuration update ===
+
+After upgrading, your existing wiki should continue to work (the goal is to have sane defaults for any new config values, but then there can be bugs and also changes that must break compatibility).
+
+Check that this is indeed the case, and then take the time to check the CHANGES file in your distribution archive. Often, new features will be invisible unless you extend your configuration in `wikiconfig.py`.
+
+Check that you have the latest "intermap.txt" file; If you have your own entries, you can point "shared_intermap" at a file loaded ''before'' the file in your data directory, which takes precedence (i.e. have global entries in the shared one, private entries the data dir file).
+
+=== Static stuff update ===
+
+On every update, you should copy the content of the "wiki/htdocs/" directory we provide to the directory visible to your web server, normally a new release has some new images, CSS and Javascript in it.
+
+You also have to change your web server / directory setup to match the `url_prefix_static` setting of moin. This defaults to `/moin_staticVVV` (VVV is 170 for moin release 1.7.0) and the default will change on every release (moin 1.7.1 will use `/moin_static171` by default). This is done to be able to use a very long cache lifetime for the static stuff, so your wiki will be faster and cause less load and traffic.
+
+=== Wiki pages update ===
+==== System and Help pages ====
+System and help pages are separately stored in the `underlay` directory. Just use the fresh underlay directory we provide in the distribution archive (move the old one to your backup directory).
+
+==== InterWiki data ====
+Copy `intermap.txt` from the distribution archive into your wiki data 
+
+==== Your valuable own pages ====
+See CHANGES and README.migration for maybe necessary steps to convert your `data_dir` to what we expect.
+
+=== Clean your cache ===
+Finally, delete cached data by running `moin ... maint cleancache`. This is necessary for things like the updated InterWiki data to trickle down into the pages that use it.
+
+=== Troubleshooting ===
+Use absolute pathes, not relative ones.
+
+Make sure you have an adequate logging configuration (see server adaptor script and the logging configuration file) and carefully read the log!
+
+Make sure python can find the !MoinMoin code package and your wiki configuration files (fix `sys.path` in the server adaptor script or PYTHONPATH in the environment).
+
+Make sure !MoinMoin can find the data_dir and data_underlay_dir (see `wikiconfig.py`).
+
+When you are editing python code files (e.g. `wikiconfig.py`), be careful to indent correctly (use 4 spaces, not tabs) and also be careful not to make syntax errors. If you have a working config, do not make too many changes at once (and have a backup of a working version).
+
+Check permissions (the moin process needs read/write access to `data_dir` and `data_underlay_dir`, it needs at least read access to the MoinMoin code and configuration).
+
+Depending on your installation, more tightly secured permissions are a good idea. Ideally, you assign all files in the data directory to the user the web server runs under, and then you use `700` or `770` - see also the `config.umask` setting.

@@ -1,0 +1,160 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+HelpOnEditing > HelpOnLists
+
+ {i} This page helps if you are working with the standard editor. If you work with the graphical editor you can work with different tools to do almost the same. (See HelpOnGraphicalEditor). You can test all these things best in the WikiSandBox.
+
+'''Help on Lists and Indentation'''
+
+You can create different lists in a quite natural way. All you do is indent the line containing the list item with at least one space. To nest lists of different levels, you use different depths of indenting. All items on the same indent level belong to the same (sub-)list. That also means that you cannot change the style of a list after you started it.
+
+<<TableOfContents>>
+
+== Indentation ==
+You can indent text with one or more spaces. This is especially useful if your are discussing on a wiki page and want to have some kind of thread level that is viewable
+
+'''Example:'''
+{{{
+ If you indent text
+  like this, then it is indented in the output
+    you can have multiple levels of indent
+}}}
+'''Is displayed:'''
+ If you indent text
+  like this, then it is indented in the output
+    you can have multiple levels of indent
+== Unnumbered Lists ==
+For a simple unnumbered(bulleted) list use the asterisk  * "{{{*}}}". You can put linebreaks in the wiki markup of a list item by indenting the additional lines at the same level as the initial star that began the list item (without preceding it with an asterisk). If you want to make a line break inside a list simply use {{{<<BR>>}}} at the end of the term after which you like to see the break. 
+
+ {i} For a list without bullets start the item with a dot "{{{.}}}"<<FootNote(For the CSS savy people: This does 'list-style-type: none')>>
+
+'''Example:'''
+{{{
+ * simple item
+ this will be displayed on the same line
+  * second level
+ * another simple item <<BR>> and something that is displayed in a new line
+}}}
+'''Is displayed:'''
+ * simple item
+ this will be displayed on the same line
+  * second level
+ * another simple item <<BR>> and something that is displayed in a new line
+
+'''Example:'''
+{{{
+ . simple item without a bullet (no style)
+  . second level
+}}}
+'''Is displayed:'''
+ . simple item without a bullet (no style)
+  . second level
+
+== Numbered Lists ==
+To get numbered list items, start it with a number template "{{{1.}}}", "{{{a.}}}", "{{{A.}}}", "{{{i.}}}" or "{{{I.}}}". To start a numbered list with a certain initial value, append "{{{#}}}''value''" to the number template.
+
+'''Examples:'''
+{{{
+ 1. first item
+ 1. second item
+  1. second level
+}}}
+'''Is Displayed:'''
+ 1. first item
+ 1. second item
+  1. second level
+
+== Definition Lists ==
+Definition lists can be created by items of this form: 
+{{{
+<whitespace>term:: definition
+}}}
+
+ . {i} note that the ''term'' cannot currently contain any wiki markup.
+ . {i} definition lists are also used in dictionaries (see HelpOnDictionaries)
+
+'''Example:'''
+{{{
+ term:: definition
+ another term:: and its definition
+}}}
+
+'''Is Displayed:'''
+ term:: definition
+ another term:: and its definition
+
+== Numbered Sections ==
+Also list related but another thing is the possibilty to number the section headers. You can do this by adding a '''#pragma''' processing instruction to the header of the page. Add
+{{{
+#pragma section-numbers on
+}}}
+to the top of the page and your section headings are getting numbers starting from 1 (subsections are also getting numbers like 1.1, 1.2 and so on)
+
+ . {i} see HelpOnProcessingInstructions for more
+
+== More Examples ==
+{{{
+
+A numbered list, mixed with bullets:
+  1. one
+  1. two
+    1. one
+      * bullet 1
+      * bullet 2
+    1. two
+  1. three
+    * bullet
+      1. one
+
+Variations of numbered lists:
+  * Lowercase roman
+    i. one
+    i. two
+  * Uppercase roman (with start offset 42)
+    I.#42 forty-two
+    I. forty-three
+  * Lowercase alpha
+    a. one
+    a. two
+  * Uppercase alpha
+    A. one
+    A. two
+
+}}} 
+
+'''Are Displayed''':
+
+A numbered list, mixed with bullets:
+  1. one
+  1. two
+     1. one
+        * bullet 1
+        * bullet 2
+     1. two
+  1. three
+     * bullet
+        1. one
+
+Variations of numbered lists:
+  * Lowercase roman
+    i. one
+    i. two
+  * Uppercase roman (with start offset 42)
+    I.#42 forty-two
+    I. forty-three
+  * Lowercase alpha
+    a. one
+    a. two
+  * Uppercase alpha
+    A. one
+    A. two
+
+
+
+For more information on the possible markup, see HelpOnEditing. 
+----

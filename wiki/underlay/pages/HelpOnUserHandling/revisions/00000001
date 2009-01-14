@@ -1,0 +1,41 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+
+<<TableOfContents>>
+
+= How to maintain your user data =
+
+User data is stored in directory data/user in files that have the user id as filename.
+
+To speed up processing, MoinMoin also maintains a mapping from user name to user id and saves it under `<cache_dir>/.../user/name2id` - these are internal data structures and you must not change those files. If you are in doubt whether name2id is correct or up-to-date, then just delete it and it will be re-generated automatically by moin. If you run a persistent (non-cgi) moin, restart MoinMoin.
+
+== Disable a user account ==
+
+You can disable a user account if you are logged in as a superuser (see HelpOnSuperUser) and choose to switch to the account of the user via the superuser preferences (so that you will temporarily be logged in as the user to be deleted) and choose "Disable this account forever" in the preferences. After that you should log out to be logged in as yourself again.
+
+== Removing a user account ==
+You can remove a user by deleting his user file (and other files that are named with that userid prefix).
+
+Be aware that if you do that, you will destroy the edit history of that user. Moin won't be able to show this user in page history, because this user id will then be unknown. So better disable an account rather than removing it. After user data is deleted, MoinMoin may still think the user exists due to the user cache in data/cache/user/name2id.  Deleting this file purges the cache and should fix this problem.
+
+== Sharing user accounts in wiki farms ==
+On single wikis you don't do anything special, each wiki will have a separate `data/user/` directory and nothing will be shared.
+In a wiki farm with two or more wikis you can share user accounts and data. Add to farmconfig.py 
+{{{
+user_dir = '/farm/user' # common user directory for all farm wikis
+}}}
+if you want that all farm wikis share user accounts, or put the respective absolute path name of the shared user directory in the wikiconfig.py file of the wikis, you want them to share data.
+Make sure that all of your wikis have some unique interwiki name set in their wikiconfig.py files:
+{{{
+interwikiname = "WikiOne"  # others: WikiTwo, WikiThree or whatever you like
+}}}
+Do also add the interwiki names of all farm wikis to the interwiki lists of the wikis so that the wikis can resolve these new names. If you don't set interwiki names, page trail, page subscriptions and quicklinks won't work properly.
+
+In farmconfig.py you can also set the value {{{user_homewiki}}} to have one wiki where all the user home pages are stored. This could be useful if you have many users. You could even link to nonwiki "user pages" if the wiki username is in the target URL. See HelpOnConfiguration for more on that.
+
+/!\ If you don't set a unique interwiki name, MoinMoin might not work correctly. You also should strongly avoid changing the interwiki name.

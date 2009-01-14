@@ -1,0 +1,19 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+= User preferences =
+
+After account creation and login, you can change your user preferences and settings (click on the link <<GetText(Settings)>> at the top of the page).
+
+The default values should be fine for most of the preferences, but you might want to change:
+ * the time zone (to convert the UTC time to your current time).
+ * the size of the editor input box (depends on your screen resolution and font preferences).
+ * maybe the preferred language (not necessary with a correctly configured browser).
+
+Then click on the '''save''' button at the bottom of the page.

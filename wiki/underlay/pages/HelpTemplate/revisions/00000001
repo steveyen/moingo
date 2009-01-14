@@ -1,0 +1,14 @@
+##master-page:HelpTemplate
+##master-date:Unknown-Date
+#format wiki
+#language en
+== Template for Help Pages ==
+Text.
+
+=== Example ===
+{{{
+xxx
+}}} 
+
+=== Display ===
+xxx

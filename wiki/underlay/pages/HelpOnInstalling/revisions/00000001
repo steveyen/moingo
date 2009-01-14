@@ -1,0 +1,74 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+HelpForAdministrators > HelpOnInstalling
+
+The following guides will walk you through concrete examples of installation scenarios, showing the commands used and explaining what they do.
+
+<<TableOfContents>>
+
+= Standalone mode / Desktop Edition =
+Running with the built-in "stand alone" server - the quickest and easiest way to get started with !MoinMoin.
+
+ * DesktopEdition
+  * for personal use or small workgroup setups with relaxed security settings
+  * recommended for new !MoinMoin users
+  * recommended if you don't have much (web) server administration experience
+  * recommended if you need a quick installation e.g. for demonstration purposes
+  * recommended before you try a more complex installation method
+  * recommended for debugging
+  * /StandaloneServer - more configuration hints
+
+= Standard Wiki installations =
+/!\ You also need to do a  /BasicInstallation.
+
+== High performance public wiki ==
+These servers are much faster than CGI, but might be harder to install and configure (if you are new to !MoinMoin or you lack web server administration experience, please use standalone mode).
+
+ * [[/ApacheWithModWSGI]] - recommended!
+ * /TwistedWeb
+ * /FastCgi - using !FastCgi on Apache and Lighttpd webservers
+ * /ApacheWithModPython - NOT recommended.
+
+== Public wiki using CGI ==
+CGI is very common, well tested and easy to configure, but slower compared to solutions above.
+
+ * /ApacheOnLinux
+ * /ApacheOnLinuxFtp - If FTP access is your only option, choose this scenario.
+ * /ApacheOnMacOsx
+ * /ApacheOnWin32
+  * See also /ApacheOnWin32withDomainAuthentication
+  * See also /Win32MoinEasyBackup
+  * See also /ApacheOnWin32withFastCgi
+ * /InternetInformationServer
+ * /WebLogic
+ * /AolServer
+
+== Next Steps ==
+After a successful installation, you might want to read more about configuration and other options that you, as the wiki administrator, can set up.
+
+ * HelpOnAdministration contains links to pages that cover these topics.
+ * HelpOnConfiguration and HelpOnUpdating pages provide additional information regarding wiki setup and maintenance.
+ * /TroubleShooting helps with fixing any general problems you might encounter which apply to any installation platform.
+ * HelpMiscellaneous offers more FAQs.
+
+<!> '''A note about using Distribution versions:''' Some Linux distributions come pre-packaged with !MoinMoin already installed.  However, chances are that the distributed version is out of date from the current version. The installation scenarios will not differ much as you will have to create new instances by yourself anyway.
+
+ * /WikiInstanceCreation are  here to ensure all information is migrated to the above guides.
+
+== Wiki Farming ==
+One copy of moinmoin source code can be used to operate more than one wiki.  Create a directory for your farm, and under it, make two data trees per the /WikiInstanceCreation instructions. In the config directory (by default ''/usr/share/moin/''config) you will find an example '''farmconfig.py''' file.  Copy this into the farm directory, and edit moin's launcher script (moin.py if you are standalone, moin.cgi if you are cgi, etc.) to point directly at it.
+
+farmconfig.py declares regular expressions for each wiki "tree" you would like - several trees make a tree farm.  It also sets the default '''wikiconfig''' options (see HelpOnConfiguration).
+
+Once a URL matches, its keyword is used to seek out an additional (but optional) configuration file.  The example describes the moin home site and its documentation development tree (moinmoin and moinmaster).  So, when you visit http://moinmo.in/ the URL matches ''moinmoin'', moinmoin.py is looked for (and exists in the same directory as farmconfig.py).  Within moinmoin.py, the options override the farmconfig, wikiconfig processing stops, and the moinmoin data tree is served to the visitor.
+
+Note that URLs matching no regex at all will not be served by moin.  If you are in standalone mode, an error page will be presented.  Also note that unless one of your keywords is ''wikiconfig'' any file named wikiconfig.py will never be read; the farm takes precedence.
+
+= Alternative Installs =
+ * /MinimalWiki - A minimalistic wiki Instructions for installing a wiki with only minimal components.

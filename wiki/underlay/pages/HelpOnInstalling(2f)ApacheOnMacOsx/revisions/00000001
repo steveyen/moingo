@@ -1,0 +1,159 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+These instructions will walk you through, step by step, setting up Moin on Mac OS X
+
+<<TableOfContents>>
+
+ ||<bgcolor="#ffffcc" style="text-align: center;"> Apple's latest operating system, 10.5 Leopard, packs enough under-hood changes that, rather than a bunch of if/then instructions, going forward this page will be updated only for Leopard.  If you have an older system (Tiger or Panther) you can click 'info' and view revision 45 for hints for those operating systems. ||
+
+== System Requirements & Preparation ==
+
+MacOS 10.5 Leopard includes the latest version of Python, version 2.5.1. (Older versions 10.4-Tiger and 10.3-Panther include the minimum required versions of Python to run Moin without updating, 2.3.5 and 2.3 respectively).
+
+!MoinMoin installation requires the use of the Terminal and assumes you have a basic familiarity with commands and syntax.  When you read commandline mentioned below, assume that you will enter these commands using the Terminal.app (located in /Applications/Utilities/Terminal.app).
+
+Make sure Apache is started ('Apple' menu > 'System Preferences...' > 'Sharing' panel > and check "Personal Web Sharing")
+
+----
+
+== Installation ==
+
+
+=== Installing MoinMoin ===
+ 1. '''Download !MoinMoin'''
+  * The most current version is here: MoinMoin:MoinMoinDownload
+ 1. '''Expand the archive'''
+  * Double-click to expand the {{{moin-X.X.tar.gz}}} archive. 
+  * You should then have a folder such as {{{moin-x.x}}} where "x.x" is the current release number. This folder will contain a {{{setup.py}}} file in addition to several other files and subfolders. Optionally, you may want to move the expanded {{{moin-X.X}}} folder to a location more convenient to work from, like into a {{{temp}}} folder the root of your hard drive.
+ 1. '''Run Setup.py from the commandline'''
+  * Open Terminal.app and enter the commands: {{{
+sudo -s
+password:
+}}}
+  * Now you have root privileges in this shell (note: the prompt will change from a $ to a #). To install, type: {{{
+cd /temp/moin-1.6
+}}}
+  * (!) '''Important: '''Now you have to decide where you want to install your Moin wiki installation; this will be your wiki root folder. Unix traditionalists will install this into {{{/usr/local}}} because of long standing unix conventions.  However, on Mac, this and other unix folders are typically hidden from the Finder. So, you may want to install outside this folder where you can more easily manage the files (such as drag-copy backups, editing config files using !TextEdit.app, etc).  In the examples below, Moin is installed in a folder on the root of your hard drive named {{{/moinwiki}}}. If you want to follow unix conventions, simply substitute {{{/usr/local}}} for {{{/moinwiki}}} in all the examples below. {{{
+python setup.py install --install-data='/moinwiki'
+}}}
+  * The {{{--install-data='/moinwiki'}}} argument tells the setup script where to put the data.  In this case, it will create a folder on the root of your hard drive called 'moinwiki'.
+  * (!) '''Note:''' 'moinwiki' may seem like an odd name, but there are a number 'moin' folders created, so I use 'moinwiki' to distinguish this folder from the others.  You can of course name it anything you like.
+  * <!> '''Security warning:''' Your wiki should not be in the "Sites" folder of your home folder, or in the /Library/!WebServer/Documents (Apache root) folder. Do not put your wiki folder where the web server can access it!
+ 1. '''Add yourself access privileges for moinwiki''' 
+ . Apple tightened security in 10.5 Leopard. We want to add our username to the {{{moinwiki}}} folder so that it's easier to work with.  
+  i. right-click (control-click) on the moinwiki folder, and select "Get Info...".
+  i. click the lock icon in the lower-right corner, enter your password to unlock.
+  i. click the + icon to add a new user, from the dialog select your username.
+  i. change your privileges to "Read & Write"
+  i. click the gear icon and select "Apply to enclosed items".
+
+
+The installation portion is now finished.
+----
+
+== Configuration ==
+
+
+
+You are now ready to create a wiki instance! The following instructions will create a wiki called "mywiki". You may replace the name {{{mywiki}}} with almost any name you wish, but do not use {{{wiki}}} because that is used by !MoinMoin for loading standard images and style sheets. Although this can be changed later, the name you choose for {{{mywiki}}} will become part of the url used to access your site, e.g. {{{http://server.myorganization.org/mywiki/FrontPage}}}.
+
+
+=== Creating a Wiki Instance ===
+We now want to create our own wiki instance and copy in a default set of templates and files. Do these commands:
+
+{{{
+cd /moinwiki/share/moin
+mkdir mywiki
+cp -r data mywiki
+cp -r underlay mywiki
+cp server/moin.cgi mywiki
+cp config/wikiconfig.py mywiki
+}}}
+You can repeat these steps for creating multiple instances, run these same commands again, substituting {{{mywiki2}}} for {{{mywiki}}}.
+
+
+=== Configuring Apache httpd.conf ===
+
+Apple upgraded Apache to 2.2 in Leopard, which (among other things) brings tighter security controls than previous versions. 
+
+ 1. '''Add yourself access privileges for apache2''' ''(alternatively, if you're comfortable with commandline (Terminal.app), you can bypass these steps and use {{{sudo}}} and {{{pico}}} instead)''
+  i. From the Finder, under the 'Go' menu, select "Go to folder..." and type {{{/etc}}}. 
+  i. right-click (control-click) on the apache2 folder, and select "Get Info...".
+  i. click the lock icon in the lower-right corner, enter your password to unlock.
+  i. click the + icon to add a new user, from the dialog select your username.
+  i. change your privileges to "Read & Write"
+  i. click the gear icon and select "Apply to enclosed items".
+ 1. '''Edit Apache's configuration file, httpd.conf'''
+  i. From the Finder, under the 'Go' menu, select "Go to folder..." and type {{{/etc/Apache2}}}.  Drag the ''httpd.conf'' file onto !TextEdit.app.
+  i. Go to the end of the Aliases section and edit like the example below: {{{
+    Alias /moin_static160/   "/moinwiki/share/moin/htdocs/"
+    ScriptAlias /mywiki      "/moinwiki/share/moin/mywiki/moin.cgi"
+}}} Add the following to allow Apache to access your {{{moinwiki}}} directory (see http://httpd.apache.org/docs/2.2/mod/core.html#options for more help): {{{
+<Directory "/moinwiki">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+}}}
+  i. Save changes
+  i. Restart Apache -
+   * open System Preferences, go to the Sharing page, select "Personal Web Sharing" and click "Stop" then "Start".
+   * Alternatively, from Terminal.app, type {{{apachectl graceful}}}.
+
+=== Configuring moin.cgi ===
+
+The ''moin.cgi'' file essentially tells Apache to run all the moin wiki pages through the python interpreter. 
+
+ 1. Edit the moin.cgi file at the following path {{{/moinwiki/share/moin/mywiki/moin.cgi}}} (click-drag the file onto !TextEdit.app). Change the line that points to your wikiconfig.py file, like in the example below. {{{
+sys.path.insert(0, '/moinwiki/share/moin/mywiki/wikiconfig.py')
+}}}
+
+ What to do if you get an "Internal Server Error":: This most likely means that the pathname above is not correct.
+ :: You can test your pathname by opening Terminal.app and pasting in the above line without the shebang {{{#!}}} statement (using the above example, {{{/Library/Frameworks/Python.framework/Versions/2.5/bin/Python}}}. If the path is correct, you should see output indicating your Python version as well as sample commands such as "help", "copyright", "credits", etc. If you get the error "Bad executable (or shared library)" or "No such file or directory" then the path is likely wrong, and you will need to correct.  I've also noticed that it helps to point directly at the "python" executable, rather than the alias or symlinks found in the upper directories.
+
+
+=== Configuring wikiconfig.py ===
+
+Open {{{wikiconfig.py}}} (click-drag the file onto !TextEdit.app) and read the comments. The wiki you created is a new "Untitled Wiki", using the default configuration. You want to give a better name and setup some configuration values. 
+
+ . (!) Note that the file belongs to user and group www:www. You can edit the file as root, or change the group of the file to yourself with {{{chown www:username wikiconfig.py}}}.
+Edit {{{/moinwiki/share/moin/mywiki/wikiconfig.py}}} and change the {{{sitename}}} to the name of your wiki:
+
+{{{
+    sitename = 'My Mac Wiki'
+}}}
+Additionally, set {{{data_dir}}} and {{{data_underlay_dir}}} to the absolute paths of the particular directories. You can use relative paths for the directories, but note that they are relative to the CGI script, not the configuration file! Better to '''use absolute paths''', and save yourself some headaches:
+{{{
+    data_dir = r'/moinwiki/share/moin/mywiki/data'
+    data_underlay_dir = r'/moinwiki/share/moin/mywiki/underlay'
+}}}
+
+Uncomment the {{{url_prefix_static}}} line: {{{
+    url_prefix_static = '/moin_static160'
+}}}
+
+For a public installation, you'll normally want to forbid some of the more dangerous actions. Add a line like this to {{{wikiconfig.py}}}:
+
+{{{
+    actions_excluded = ['AttachFile', 'DeletePage', 'RenamePage', ]
+}}}
+Additional configuration details can be found in HelpOnConfiguration.
+
+=== Setting Permissions ===
+You have to make the web server the owner of the files in your wiki. Navigate to {{{/moinwiki/share/moin/}}} and run the following commands: {{{
+chown -R www:www mywiki
+chmod -R 744 mywiki
+}}}
+
+----
+== Testing Your New Wiki ==
+In a web-browser surf to the site: http://localhost/mywiki You should see the !FrontPage of your new wiki.
+
+Now run the unit tests, to make sure everything is fine. Go to this address: http://localhost/mywiki?action=test

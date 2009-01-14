@@ -1,0 +1,219 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+Some basic pages used for every language, but we only need them once in english (don't translate!):
+ * AutoAdminGroup
+ * BadContent
+ * InterWikiMap
+ * LocalBadContent
+ * EditedSystemPages
+ * LocalSpellingWords
+  * SystemPagesGroup - /!\ do not move this to first list level!
+ * SystemPagesSetup
+ * SystemAdmin
+ * ProjectTemplate
+ * ProjectGroupsTemplate
+
+This is a list of all English System``Pages (including Help``Pages) in this wiki:
+
+system pages:
+ * FrontPage
+ * RecentChanges
+ * TitleIndex
+ * WordIndex
+ * SiteNavigation
+ * FindPage
+ * MissingPage
+ * MissingHomePage
+ * PermissionDeniedPage
+ * AbandonedPages
+ * OrphanedPages
+ * WantedPages
+ * EventStats
+ * EventStats/HitCounts
+ * [[EventStats/Languages]]
+ * EventStats/UserAgents
+ * PageSize
+ * PageHits
+ * InterWiki
+ * RandomPage
+ * SystemInfo
+ * WikiHomePage
+ * WikiSandBox
+ * WikiTipOfTheDay
+ * XsltVersion
+ * FortuneCookies
+
+help pages:
+ * HelpContents
+ * HelpForAdministrators
+ * HelpForBeginners
+ * HelpForDevelopers
+ * HelpForUsers
+ * HelpIndex
+ * HelpMiscellaneous
+ * HelpMiscellaneous/ExperimentalFeatures
+ * HelpMiscellaneous/FrequentlyAskedQuestions
+ * HelpOnAccessControlLists
+ * HelpOnAcl
+ * HelpOnActions
+ * HelpOnActions/AttachFile
+ * HelpOnAdministration
+ * HelpOnAdmonitions
+ * HelpOnAuthentication
+ * HelpOnAuthentication/ExternalCookie
+ * HelpOnAutoAdmin
+ * HelpOnCategories
+ * HelpOnConfiguration
+ * HelpOnConfiguration/EmailSupport
+ * HelpOnConfiguration/SecurityPolicy
+ * HelpOnConfiguration/ApacheVoodoo
+ * HelpOnConfiguration/FileAttachments
+ * HelpOnConfiguration/IntegratingWithApache
+ * HelpOnConfiguration/SupplementationPage
+ * HelpOnConfiguration/SurgeProtection
+ * HelpOnConfiguration/UserPreferences
+ * HelpOnDictionaries
+ * HelpOnEditLocks
+ * HelpOnEditing
+ * HelpOnEditing/SubPages
+ * HelpOnFormatting
+ * HelpOnGraphicalEditor
+ * HelpOnHeadlines
+ * HelpOnPackageInstaller
+ * MoinMoin/InstallDocs
+ * HelpOnInstalling
+ * HelpOnInstalling/AolServer
+ * HelpOnInstalling/ApacheOnMacOsx
+ * HelpOnInstalling/ApacheOnLinux
+ * HelpOnInstalling/ApacheOnLinuxFtp
+ * HelpOnInstalling/ApacheOnWin32
+ * HelpOnInstalling/ApacheOnWin32withDomainAuthentication
+ * HelpOnInstalling/ApacheOnWin32withFastCgi
+ * [[HelpOnInstalling/ApacheWithModWSGI]]
+ * HelpOnInstalling/ApacheWithModPython
+ * HelpOnInstalling/BasicInstallation
+ * HelpOnInstalling/FastCgi
+ * HelpOnInstalling/InternetInformationServer
+ * HelpOnInstalling/MinimalWiki
+ * HelpOnInstalling/StandaloneServer
+ * HelpOnInstalling/TroubleShooting
+ * HelpOnInstalling/TwistedWeb
+ * HelpOnInstalling/WebLogic
+ * HelpOnInstalling/WikiInstanceCreation
+ * HelpOnInstalling/Win32MoinEasyBackup
+ * HelpOnLanguages
+ * HelpOnLinking
+ * HelpOnLinking/NotesLinks
+ * HelpOnLists
+ * HelpOnLogin
+ * HelpOnMacros
+ * HelpOnMacros/EmbedObject
+ * HelpOnMacros/ImageLink
+ * [[HelpOnMacros/Include]]
+ * HelpOnMacros/MailTo
+ * HelpOnMacros/MonthCalendar
+ * HelpOnMoinCommand
+ * HelpOnMoinCommand/ExportDump
+ * HelpOnNavigation
+ * HelpOnNotification
+ * HelpOnOpenIDProvider
+ * HelpOnPageCreation
+ * HelpOnPageDeletion
+ * HelpOnParsers
+ * HelpOnParsers/ReStructuredText
+ * HelpOnParsers/ReStructuredText/RstPrimer
+ * HelpOnPatchCreation
+ * HelpOnProcessingInstructions
+ * HelpOnRules
+ * HelpOnSearching
+ * HelpOnSessions
+ * HelpOnSlideShows
+ * HelpOnSpam 
+ * [[HelpOnSlideShows/000 Introduction]]
+ * [[HelpOnSlideShows/100 Creating the slides]]
+ * [[HelpOnSlideShows/900 Last but not least: Running your presentation]]
+ * HelpOnSmileys
+ * HelpOnSpellCheck
+ * HelpOnSuperUser
+ * HelpOnSynchronisation
+ * HelpOnTables
+ * HelpOnTemplates
+ * HelpOnTextChas
+ * HelpOnThemes
+ * HelpOnUpdating
+ * HelpOnUpdatingPython
+ * HelpOnUserHandling
+ * HelpOnUserPreferences
+ * HelpOnVariables
+ * HelpOnXapian
+ * HelpOnXmlPages
+ * HelpOnComments
+ * HelpOnSubscribing
+ * HelpTemplate
+ * WhyWikiWorks
+ * MoinMoin
+ * SyntaxReference
+  * was renamed to HelpOnMoinWikiSyntax, SyntaxReference is now just a redirect to that page.
+ * MoinMoin/TextFormatting
+  * just a redirect to HelpOnMoinWikiSyntax now, because that page is better!
+ * HelpOnMoinWikiSyntax
+ * HelpOnCreoleSyntax
+ * CamelCase
+ * WikiName
+ * WikiWikiWeb
+ * DesktopEdition 
+
+Wiki Course:
+ * WikiCourse
+ * [[WikiCourse/01 What is a MoinMoin wiki?]]
+ * [[WikiCourse/02 Finding information]]
+ * [[WikiCourse/03 Staying up to date]]
+ * [[WikiCourse/04 Creating a wiki account]]
+ * [[WikiCourse/05 User preferences]]
+ * [[WikiCourse/06 Your own wiki homepage]]
+ * [[WikiCourse/07 The text editor]]
+ * [[WikiCourse/08 Hot Keys]]
+ * [[WikiCourse/10 Text layout with wiki markup]]
+ * [[WikiCourse/11 Paragraphs]]
+ * [[WikiCourse/12 Headlines]]
+ * [[WikiCourse/13 Lists]]
+ * [[WikiCourse/14 Text styles]]
+ * [[WikiCourse/15 Tables]]
+ * [[WikiCourse/16 Wiki internal links]]
+ * [[WikiCourse/17 External links]]
+ * [[WikiCourse/18 Attachments]]
+ * [[WikiCourse/19 Symbols]]
+ * [[WikiCourse/20 Dynamic content]]
+ * [[WikiCourse/21 Macros]]
+ * [[WikiCourse/22 Parsers]]
+ * [[WikiCourse/23 Actions]]
+ * [[WikiCourse/30 The graphical editor]]
+ * [[WikiCourse/40 Creating more pages]]
+ * [[WikiCourse/50 Wiki etiquette]]
+ * [[WikiCourse/51 Applications]]
+ * [[WikiCourse/52 Structure in the wiki]]
+ * WikiCourseHandOut
+
+
+categories:
+ * CategoryCategory
+ * CategoryHomepage
+
+templates:
+ * CategoryTemplate
+ * HelpTemplate
+ * HomepageTemplate
+ * HomepageReadWritePageTemplate
+ * HomepageReadPageTemplate
+ * HomepagePrivatePageTemplate
+ * HomepageGroupsTemplate
+ * SlideShowHandOutTemplate
+ * SlideShowTemplate
+ * SlideTemplate
+ * SyncJobTemplate

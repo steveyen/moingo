@@ -1,0 +1,78 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+= Queries =
+
+With the MoinMoin search engine the same search patterns are allowed in the search and title search input fields as in the parameters for the {{{FullSearch}}}  {{{(FullSearchCached)}}} and the {{{PageList}}} macros.
+
+ * There may be several search terms separated by white space
+  * By default, terms are connected by conjunction - only pages containing all search term are returned
+  * Double or single quotes may be used to include white space within search terms (phrase search), to search for the quotes themselves either quote them in the other type of quote or double them within a quoted string
+ * `-` before a search term inverts it, pages containing this term will be excluded from the result
+ * `regex:TERM` is treated as a regular expression.  !MoinMoin follows Python regex rules (see [[http://docs.python.org/lib/re-syntax.html]] for more info)
+ * `title:TERM` searches in pages whose titles match TERM
+  * Normal search terms do search the titles, too. Matches in titles get more weight than matches in pages.
+ * {{{case:TERM}}} searches case sensitive
+ * {{{linkto:TERM}}} searches for links to TERM
+ * {{{language:LANG-ISO-CODE}}} searches for pages written in a given language ISO code, e.g. en, de
+ * {{{category:CategorySomething}}} searches for pages belonging to Category``Something
+ * {{{mimetype:TYPE}}} searches for pages and attachments with mimetype TYPE, e.g. image/png
+  /!\ {{{mimetype:}}} search has limited support for the builtin search (only pages have a mimetype - `text/<format>`)
+ * {{{domain:TERM}}} searches for pages in a domain like underlay or system (for system pages)
+ * {{{title:}}}, {{{regex:}}}, {{{linkto:}}} and {{{case:}}} may be used in combination in one search term
+  * these modifiers may be abbreviated to any length: e.g. {{{re:}}}, {{{t:}}}, {{{reg:}}}, {{{cas:}}}, {{{l:}}}
+  * If you want to use multiple prefixes, you have to concatenate them like this: `t:re:TERM`
+  * `-` must be put before any other modifiers
+ * `OR` operator has a lower precedence than the implicit AND (e.g., `car diesel or gas` will find any page containing both "car" and "diesel", but will also hit on pages containing "gas", even if "car" is not on the page.)
+ * Parentheses can be used for grouping
+
+== Examples ==
+
+{{{
+title:Help macro
+}}}
+searches for help pages that contain the word "macro".
+
+{{{
+apple (computer or "operating system")
+}}}
+searches for pages containing the word "apple" and at least one of "computer" or "operating system".
+
+{{{
+windows winamp or linux xmms
+}}}
+searches for pages containing both "windows" and "winamp", and also for pages containing both "linux" and "xmms".
+
+{{{
+"is text"
+}}}
+Will match "th'''is text'''" or "'''is text'''s". Quotes are used only to include whitespace.
+
+{{{
+linkto:WindowsPage title:Linux
+}}} searches for pages that have "Linux" in the page name and that link to !WindowsPage
+
+{{{
+r:\bdog\b
+}}} searches for the word "dog" and does ''not'' find e.g. the word "doggy".
+
+{{{
+help -domain:system
+}}} search for pages containing the word "help" but which are not system pages
+
+{{{
+category:CategoryHomepage title:thomas
+}}} search for pages in CategoryHomepage with the word "thomas" in the title (user homepages of all persons named Thomas)
+
+== TitleSearch and PageList ==
+ * uses the same patterns
+ * {{{title:}}} is implicitly added to every search term
+
+== Xapian ==
+
+See HelpOnXapian for more information on Xapian and its setup.

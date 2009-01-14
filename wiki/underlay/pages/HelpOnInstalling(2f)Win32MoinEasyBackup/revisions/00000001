@@ -1,0 +1,61 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+## page was renamed from HelpOnInstalling/ApacheOnWin32EasyBackup
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+= Easy Windows MoinMoin Backup =
+Backing up your wiki server is important, in case of an event like a hard drive crash.  However, since the wiki maintains it's own built-in version control, we don't need to worry about a sophisticated rotating backup strategy. We just need the data files.  A simple scheduled Windows .bat file script will do the trick.
+
+== Prerequisites & Requirements ==
+ 1. Download and install Microsoft's [[http://www.microsoft.com/downloads/details.aspx?FamilyID=9d467a69-57ff-4ae7-96ee-b18c4790cffd&DisplayLang=en|Windows Resource Kit Tools]] - ''While these tools say Windows 2003, they are backwards compatible. I successfully and routinely use these commands on Windows 2000 Workstation.''
+
+ 1. We will be changing the extension of a file from {{{.txt}}} to {{{.bat}}} so it is important that you have "Show all file extensions" turned on.
+== Create a backup destination ==
+We need a destination to copy these files. It should be a location separate from the server itself, so that you could quickly relocate the data to a new server if you need to.  This could be a shared folder on a network computer, or an external USB drive.  In the example below, I'm going to set up to back up to a networked volume.  If you are using an external drive, simply substitute the drive letter (and, you get to skip the steps for creating a shared folder below).
+
+Create a shared folder on a networked machine (different than your wiki server).  The exact steps are beyond the scope of this document, but here's a few hints:
+
+ 1. Create a new folder, call it something appropriate like "wiki-backup". Avoid using spaces, as they can break the script.
+
+ 1. right-click on a new "wiki-backup" folder, select "sharing" and share the folder.
+
+ 1. On Windows XP, the default permissions are "read only". Remove the 'Everyone' group, and add a specific domain user such as domain\administrator (we'll use this user credentials below). Change the permissions to 'Full' for this user.
+
+ 1. Further secure the folder according to your network policy, if needed.
+== Create the Backup Script ==
+We'll be using Robocopy from the Windows Resource Kit Tools that you installed from the Prerequisites section above. Robocopy is Microsoft's commandline utility that supercedes all prior versions of copy and xcopy commandline commands. Robocopy is abbreviated for Robust File Copy, and offers more copy options, more flexibility, fixes shortcomings in copy/xcopy (such as long pathname lengths), and of course offers better robustness.  Inexplicably, it does not come with Windows.
+
+ 1. Using Notepad.exe or similar text editor, create a new file similar to below (you will have to modify the parameters to match your set-up (see Parameters Explained below)):
+ {{{
+d:\robocopy\robocopy.exe "d:\mywiki" "\\backupserver\wiki-backup\"  /LOG+:\\backupserver\logs\moin-backup.log /XF *.pyc /MIR /ndl /TEE /NP /R:10 /W:30s
+}}}
+
+ 1. Save the file as "wiki-backup.bat" (make sure it doesn't have .txt, of course)
+'''Parameters Explained:'''
+
+Full Robocopy documentation can be found in the robocopy.doc included in the Resource Kit.
+
+ * {{{d:\robocopy\robocopy.exe}}} - location of the robocopy.exe. ''(As in the example above, I typically move Robocopy somewhere more convenient (less typing, avoid using spaces).''
+ * {{{"d:\mywiki"}}} - source directory
+ * {{{"\\backupserver\wiki-backup\"}}} - destination directory on a different networked machine.
+ * {{{/LOG+:\\backupserver\logs\moin-backup.log}}} - running log of your backups ''(I typically have my backup scripts write their logs into a common folder on the backup server, so that I can easily check them all at once.  If you mimic this script exactly, you will have to create another shared folder named 'logs' on the backupserver (and set permissions, like above)).''
+ * {{{/XF *.pyc}}} - exclude files ending in .pyc
+ * {{{/MIR}}} - mirrors the destination to the source directory (this means that files/directories deleted in source will also be deleted in copy).
+ * {{{/ndl}}} - logging option: turns off logging of directory names (will list full pathnames instead)
+ * {{{/TEE}}} - displays output in the console window
+ * {{{/NP}}} - suppresses copy progress indicator (% copied) ''(files are generally too small to bother with % copied, so I turn it off)''
+ * {{{/R:10}}} - specifies the number of retries on failed copies (in this example, 10)
+ * {{{/W:30s}}} - specifies the wait time between retries (the default is 30 seconds)
+== Automating (Scheduling) Backups ==
+Of course, you'll want to make regular backups. Like, typically every night. ;-)
+
+ 1. Go to: Start > Settings > Control Panels > Scheduled Tasks
+ 1. Run the "Add Scheduled Task" wizard
+  i. Click "Browse" and locate your .bat file you created above.
+  i. Name the task ("wiki backup"), and set to run 'daily'. Pick a 'slow' time where fewer people will be using the wiki (like 5:00am).
+  i. Set the username and password of the user who has rights to the backup folder (see step 3 in the "Create a backup destination" section above).
+And, that's it!  Run the script to make sure you have no syntax errors, and before long you'll have your first wiki backup!  Check the log occasionally to make sure the scheduled task is running.

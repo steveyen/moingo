@@ -1,0 +1,119 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= Configuring FastCGI on Apache on Windows =
+== (And adding it as a Windows service) ==
+Moin in the standard CGI configuration is perfectly fine for a personal wiki or small workgroups.  But, if you want to take your wiki performance to the next level, FastCGI is the way to go.  FastCGI will have a noticeable and dramatic impact on speed, which is particularly noticeable on pages with lots of images.  Among other tricks, FastCGI works by keeping the python process open, thereby reducing the small delay caused by waiting for a python process to launch for each request. More info is available on the [[http://www.fastcgi.com/|FastCGI webpage]].
+
+ . {i} '''''note:''' the Moin project recommends [[HelpOnInstalling/ApacheWithModWSGI|mod_wsgi]] as the preferred python accelerator. However, at this time, mod_wsgi cannot be incorporated as a service on Windows (aka a process on unix-based platforms). So for Windows, FastCGI is still the way to go.''
+
+
+== Prerequisites & Requirements ==
+ 1. You already have working copy of !MoinMoin on Windows - ''(See HelpOnInstalling/ApacheOnWin32)''
+ 1. You're running Moin version 1.8.x or later. ''(if you're running an earlier version of Moin, try checking past revisions of this page)''
+ 1. Assumes your wiki instance is located at {{{d:\moin\mywiki}}} ''(You will have to adjust these instructions to your specific set up).''
+ 1. If you run (or anticipate running) multiple wiki's on the same server, you will want to have your wiki-farm configured and working ''__first__''.  ''(You will make life easier for yourself-- because of how FastCGI works, you will not be able to easily call two .FCG files at the same time (nor will it make sense to) from setting up the FastCGIservice below, etc.  If you are only setting up one wiki, then by all means, proceed... (see also HelpOnConfiguration and FarmQuestions).''
+''(See also HelpOnInstalling/FastCgi)''
+
+== Install FastCGI ==
+ 1. Download the latest compiled mod_fastcgi.dll from http://fastcgi.com/dist/ e.g., {{{mod_fastcgi-SNAP-0404142202-AP2.dll}}}
+ 1. Rename it to something more sensible, like {{{mod_fastcgi.dll}}} (if you choose not to rename it, be sure to specify the full name in the {{{LoadModule}}} line on the httpd.conf file).
+ 1. Copy it into the Apache2\modules folder at {{{c:\Program Files\Apache Software\Apache2\modules\}}}.
+== FastCGI MoinMoin Configuration ==
+ 1. Copy {{{moin.fcg}}} from {{{d:\Python25\share\moin\server}}} to your instance home, {{{d:\Moin\mywiki}}}
+
+ 1. Change the first-line shebang statement to point to your python installation. This would be exactly has your old working {{{moin.cgi}}} file: {{{
+ #! d:/Python25/python
+}}}
+
+== Modify server_fastcgi.py ==
+
+server_fastcgi.py has to be configured slightly differently for Windows than it does for Linux/Unix. Open the {{{server_fastcgi.py}}} file located in: {{{D:\Python25\Lib\site-packages\MoinMoin\server\}}}:
+  * the {{{server_fastcgi.py}}} file has been updated to include an optional variable for the port number. For Windows, we need to set that variable. Locate line 50, and change the {{{port = None}}} to the port number you specify in your Apache httpd.conf file. Following the example in the [[HelpOnInstalling/ApacheOnWin32withFastCgi|instructions]], line 50 should now read: {{{
+Port = 9001
+}}}
+
+
+== httpd.conf Configuration ==
+Open your Apache config file ({{{c:\Program Files\Apache Software\Apache2\conf\}}}), and add the following directives:
+
+ 1. Scroll down to the !LoadModule section and add mod_fastcgi.dll, like in the example below (if you didn't rename your file, you'll need to exactly to match your file name):
+ {{{
+LoadModule fastcgi_module modules/mod_fastcgi.dll
+}}}
+ 1. Scroll down to the !AddHandler section and add the following:
+ {{{
+AddHandler fastcgi-script .fcg
+}}}
+ 1. Modify your !ScriptAlias line to point to your {{{moin.fcg}}} file (fas we configured in the section above). There are two options here; if you are running a single wiki, use {{{i}}}. If you have a wiki farm, use {{{ii}}}:
+  i. Example if you're running a single wiki:
+  {{{
+ScriptAlias /mywiki    "d:/Moin/mywiki/moin.fcg"
+}}}
+  i. Example if you're running multiple wiki's (i.e. a wiki farm):
+  {{{
+ScriptAlias /mywiki     "d:/Moin/moin.fcg"
+ScriptAlias /yourwiki   "d:/Moin/moin.fcg"
+ScriptAlias /theirwiki  "d:/Moin/moin.fcg"
+}}}
+
+ 1. Register the {{{moin.fcg}}} as an external server. This needs to match the port we specified in {{{moin.fcg}}} in the steps above (if you changed the port number). Make sure the path to {{{moin.fcg}}} points to the correct location. We'll also specify the loopback IP, instead of the interface IP, so that it will work even if the computer's IP address changes.
+ {{{
+FastCgiExternalServer d:/Moin/mywiki/moin.fcg -host 127.0.0.1:9001
+}}}
+When finished, you should have something similar to this at the tail of your httpd.conf file:
+
+{{{
+### point to the python wiki htdocs:
+Alias       /moin_static180/    "D:/Python25/share/moin/htdocs/"
+### Your ScriptAlias(es) need to point to your .fcg files:
+ScriptAlias /mywiki    "D:/moin/moin.fcg"
+ScriptAlias /yourwiki   "D:/moin/moin.fcg"
+### Setting the external server:
+FastCgiExternalServer d:/Moin/moin.fcg -host 127.0.0.1:9001
+}}}
+Move your old {{{moin.cgi}}} elsewhere to ensure that it's not being called.
+
+You're done!  Now it's time to test.
+
+Open a commandline window (Start > Run... > type {{{cmd}}}), navigate to your {{{moin.fcg}}} location, and type the following command (substituting your python path, as necessary). Leave the window open while you test (closing it will quit the python process).
+
+{{{
+d:\python25\python moin.fcg
+}}}
+If all went well (and you marveled at how much faster moin is now), you can now proceed to the next section to register moin.fcg as a local service. This ensures that moin will come up across restarts.
+
+<<BR>> <<BR>> <<BR>>
+
+----
+= Register moin.fcg as a local service =
+We're now going to create a new service that automatically starts our moin.fcg after reboots.
+
+ 1. Download & install the [[http://www.microsoft.com/downloads/details.aspx?displaylang=en&familyid=9d467a69-57ff-4ae7-96ee-b18c4790cffd|MS Windows 2003 Resource Kit]]. (of course, you already have the Resource Kit installed, since you're using !RoboCopy to back up your wiki, right?! See HelpOnInstalling/Win32MoinEasyBackup).  We need two commands from the Resource Kit, {{{srvany.exe}}} and {{{instsrv.exe}}}. For convenience sake, you can optionally move these to some place more convenient (you'll have to navigate to them via the commandline).
+ 1. From the commandline (Start > Run... > type {{{cmd}}}), navigate to your Resource Kit folder and type the following to create a new service, which we'll name {{{FastCGIservice.}}} You can use a different name, if you prefer.
+ {{{
+INSTSRV FastCGIservice C:\Windows\system\srvany.exe
+}}}
+ 1. Now we have just created the service, we have to configure it.  Run {{{regedit.exe}}} (Start > Run... > type {{{regedit}}}):
+  i. Under {{{HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\}}}, create a new key (right-click > New > Key) called {{{FastCGIservice}}}.
+  i. Under the {{{FastCGIservice}}} you created above, create a new key (right-click > New > Key) named {{{Parameters}}}
+  i. Within the Parameters key, create a new string value (right-click > New > String Value) named {{{Application}}} (key value will be listed as REG_SZ type). Double-click your value and specify the path of application:
+  {{{
+d:\Python25\python.exe
+}}}
+  i. Within the Parameters key: perform the same steps above, this time creating an {{{AppParameters}}} value and specify a parameter:
+  {{{
+d:\Moin\mywiki\moin.fcg
+}}}
+  i. Within the Parameters key: perform the same steps above, this time creating an {{{AppDirectory}}} value and specify the current directory:
+  {{{
+d:\Moin\mywiki
+}}}
+ 1. Now configure it via the Services applet (Start > Settings > Control Panels > Administrative Tools > Services), such as automatic start.
+You're finished!
+
+ . <!> __'''Note'''__: For now on, whenever you make changes to to your wikiconfig.py/farmconfig.py, you will need to restart '''{{{FastCGIservice}}}''' via the Services applet (Start > Settings > Control Panels > Administrative Tools > Services) apply the changes.

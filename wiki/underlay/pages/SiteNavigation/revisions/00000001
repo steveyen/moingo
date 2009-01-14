@@ -1,0 +1,24 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+'''SiteNavigation''' is the central place to explore this wiki. MoinMoin supports the following MeatBall:IndexingScheme''''''s:
+ * RecentChanges
+ * TitleIndex
+ * WordIndex
+ * FindPage
+ * WantedPages
+ * OrphanedPages
+ * AbandonedPages
+ * RandomPage
+ * PageSize
+ * PageHits
+
+You can navigate to other wiki pages related to the current page by selecting these actions, available through the dropdown lists in the edit bars at the top and/or bottom of each page:
+ * <<GetText(LikePages)>>
+ * <<GetText(LocalSiteMap)>>
+
+Additionally, there are the {{{<<PageList>>}}}, {{{<<FullSearch(...)>>}}}, {{{<<Navigation(...)>>}}}, and {{{<<TableOfContents>>}}} macros, which allow you to automatically generate indices for cohesive parts of a wiki (see HelpOnMacros).

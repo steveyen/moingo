@@ -1,0 +1,94 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+<<TableOfContents>>
+
+= Why use mod_wsgi? =
+
+See the [[http://modwsgi.org/|mod_wsgi homepage]].
+
+(!) Please note that its "daemon mode" should be the preferred way to use it (and this is the reason to prefer mod_wsgi over mod_python).
+
+= Basic configuring =
+
+ 1. Install mod_wsgi
+ 1. Set up a wiki instance
+ 1. Edit `wikiconfig.py`
+ 3. Changes to Apache configuration
+ 1. Restart Apache
+
+The sample configurations below are for a wiki instance called `mywiki` installed in a directory `/var/www/moin/mywiki` with the main !MoinMoin installation installed in python's default site library path. The wiki appears as URL `/mywiki` under the server - ie `http://my.ser.ver/mywiki`.  You will need to change these to reflect your installation.
+
+== Install mod_wsgi ==
+
+Most people will just add a `mod_wsgi` package to their current operating system installation.  If you are building from source then you should consult the mod_wsgi documentation (it is rather easy if you have a development environment installed).
+
+Make sure you have this line in your apache configuration or mod_wsgi will not work:
+{{{
+LoadModule wsgi_module modules/mod_wsgi.so
+}}}
+
+After this restart Apache and make sure that it starts successfully (also check the the error log).
+
+== Set up a wiki instance ==
+
+This is done as shown in [[HelpOnInstalling/WikiInstanceCreation|WikiInstanceCreation]]. Its recommended to first configure the wiki with cgi and check that it works, then change the configuratin to use mod_wsgi. This allows you be sure that any problems are in the mod_wsgi transition rather than the basic MoinMoin installation.
+
+ 1. Copy moin.cgi into your wiki directory
+ 1. Configure `httpd.conf` as cgi first (Alias shown is for 1.7.0, for other versions please change it):
+  {{{
+Alias /moin_static170/ "/usr/share/moin/htdocs/"
+ScriptAlias /mywiki "/var/www/moin/mywiki/moin.cgi"
+}}}
+
+Restart Apache and make test that your wiki works.
+
+== Edit `wikiconfig.py` ==
+
+Make sure you use only absolute paths:
+{{{
+data_dir = '/var/www/moin/mywiki/data/'
+data_underlay_dir = '/var/www/moin/mywiki/underlay/'
+}}}
+
+Test that the wiki works after this change.
+
+== Changes to Apache configuration ==
+
+After your wiki is running as cgi script, convert it to run with mod_wsgi. 
+
+If you run your wiki as cgi as we recommended before, remove or comment the !ScriptAlias directive:
+{{{
+#ScriptAlias /mywiki "/var/www/moin/mywiki/moin.cgi"
+}}}
+
+Add this to the same virtualhost definition (Alias shown is for 1.7.0, for other versions please change it):
+{{{
+    # this is for icons, css, js (and must match url_prefix from wiki config):
+    Alias /moin_static170/ /usr/share/moin/htdocs/
+
+    # this is the URL http://servername/mywiki/ you will use later to invoke moin:
+    WSGIScriptAlias /mywiki /var/www/moin/mywiki/moin.wsgi
+
+    # in case you want your wiki under the root url (http://servername/), use this instead:
+    #Alias /robots.txt /usr/share/moin/htdocs/robots.txt
+    #Alias /favicon.ico /usr/share/moin/htdocs/favicon.ico
+    #WSGIScriptAlias / /var/www/moin/mywiki/moin.wsgi
+
+    # create some wsgi daemons - use someuser.somegroup same as your data_dir:
+    WSGIDaemonProcess moin user=someuser group=somegroup home=/home/someuser processes=5 threads=10 maximum-requests=1000 umask=0007
+    # for mod_wsgi >= 2.0 you can append this to have a nice ps aux display:
+    # display-name=wsgi-moin
+
+    # use the daemons we defined above to process requests!
+    WSGIProcessGroup moin
+}}}
+
+Please also have a look into `moin.wsgi` - you maybe have to change some `sys.path.insert` instructions so Python can find the !MoinMoin code and the wiki configuration.
+
+Restart Apache - everything should now work correctly.

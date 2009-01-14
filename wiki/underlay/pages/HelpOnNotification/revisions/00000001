@@ -1,0 +1,74 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+<<TableOfContents>>
+
+= The notification system =
+MoinMoin 1.7 includes a new notification system. Supplemental to the [[HelpOnConfiguration/EmailSupport|basic email based notification]] you can use a separate process running a Jabber/XMPP notification bot. See http://www.jabber.org/ and http://www.xmpp.org/ for more information on this protocol.
+
+The bot can be used to send notifications about various events occuring in your Wiki, or to work with the Wiki interactively.
+
+As it's a separate process, it doesn't block waiting for all notifications to be sent, so this solution should be suitable for large sites that have many users subscribed to particular changes.
+
+== Features ==
+ * Notification sent when pages are changed in various ways (content change, page rename, deletion, page copy), users being created (visible to super user only!), attachments being added and users subscribing to pages...
+
+ * Users can choose which events they're interested in being notified about. This applied both to (old) email and jabber notifications.
+
+ * The interactive Jabber bot allows to perform various simple operations on a Wiki from within your IM client (possibly in response to received notification). This includes getting raw and html-formatted page contents, querying detailed page information (last author, revision, date of the last change...), getting a list of pages, performing searches and reverts.
+
+ * The bot uses Data Forms (XEP-004) and Out of Band Data (XEP-066) extensions if they're supported by the client to further extend available communication options.
+
+== Notification options ==
+When the {{{notification_bot_uri}}} option is present in your wiki's config, new options become available in your user preferences.
+
+Make sure to set your JID in your user preferences.
+
+A multi-selection list allows you to select which events you want to be notified about, and two new check-boxes let you specify if notifications should be sent via email, jabber or both.
+
+== Known main issues with the Jabber bot ==
+=== You need a recent version of pyxmpp, 1.0 won't work ===
+
+Either use a recent snapshot or get it directly from svn repository with:
+{{{
+           svn checkout http://pyxmpp.jajcus.net/svn/pyxmpp/trunk pyxmpp
+}}}
+
+Add the resulting `pyxmpp` directory to your PYTHONPATH or perform a "full installation" as described [[http://pyxmpp.jajcus.net/ | here]]:
+{{{
+           To build the package just invoke:
+           python setup.py build
+
+           To install it:
+           python setup.py install
+}}}
+
+If you had some older version of PyXMPP it is better to uninstall it first (delete pyxmpp subdirectory of your site-packages directory) before installing the new version or things might not work correctly.
+{{{
+           You may also try:
+           make
+
+           and:
+           make install
+}}}
+
+=== Traffic limits ===
+Jabber servers usually have rather tight data rate limits, so if your site generates a lot of traffic, the notification bot may become unstable and/or unusable. If such a condition occurs, you should consider running your own Jabber/XMPP server with relaxed limits.
+
+=== Internationalization ===
+For the i18n to work, your wiki must be accessible when the notification bot is being started.
+
+== Setting up a Jabber bot ==
+These are step-by-step instructions you have to perform in order to get the Jabber notification bot up and running:
+
+ 1. Install a post-1.0 version of [[http://pyxmpp.jajcus.net/|pyxmpp]].
+ 1. The Jabber bot lives in a {{{jabberbot/}}} directory in MoinMoin's distribution archive. Copy it to a suitable place. Make sure that {{{PYTHONPATH}}} environment variable contains the directory that contains the jabberbot package.
+ 1. Create an account for the bot to use using any Jabber/XMPP client. Currently it can't register the account by itself.
+ 1. Edit the bot's configuration file, {{{config.py}}}, and set its account details '''and a secret used to communicate with the wiki'''.
+ 1. Edit your wikiconfig and add {{{notification_bot_uri}}} and {{{secret}}} options to it. You will find an example in file {{{wiki/config/more_samples/jabber_wikiconfig_snippet}}}, distributed along with MoinMoin. Make sure to set the secret to exactly the same string as you used in the bot's configuration!
+ 1. Launch / restart your wiki.
+ 1. Launch the bot: {{{python main.py}}}

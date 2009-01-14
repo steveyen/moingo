@@ -1,0 +1,7 @@
+
+    CH.ifa.draw.standard.StandardDrawing "no_attributes" 5 
+        CH.ifa.draw.figures.RectangleFigure "attributes" "attributes" 1 "FillColor" "Color" 0 255 0 52 51 42 48  
+        CH.ifa.draw.figures.RectangleFigure "no_attributes" 54 130 42 48  
+        CH.ifa.draw.figures.EllipseFigure "attributes" "attributes" 1 "FillColor" "Color" 255 0 0 130 86 102 96  
+        CH.ifa.draw.contrib.PolygonFigure "attributes" "attributes" 1 "FillColor" "Color" 0 0 255 3 290 65 243 181 342 181  
+        CH.ifa.draw.figures.TextFigure "attributes" "attributes" 1 "FillColor" "Color" 255 199 158 52 20 "This is a simple example" "Helvetica" 0 12 0 NULL NULL   

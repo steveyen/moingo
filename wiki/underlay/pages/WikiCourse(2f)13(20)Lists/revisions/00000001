@@ -1,0 +1,45 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+= Lists =
+
+== Bulleted ==
+
+=== Input ===
+{{{
+My pets:
+ * Dog
+ * Cat
+  * Mouse
+}}}
+=== Display ===
+My pets:
+ * Dog
+ * Cat
+  * Mouse
+
+== Numbered ==
+=== Input ===
+{{{
+To do:
+ 1. Feed dog
+ 1. Feed cat
+  1. Let out mouse
+}}}
+=== Display ===
+To do:
+ 1. Feed dog
+ 1. Feed cat
+  1. Let out mouse
+
+(!) !MoinMoin can count on its own!
+
+(!) The number of leading spaces defines the hierarchical level of the list.
+
+There are more examples of lists at HelpOnLists.

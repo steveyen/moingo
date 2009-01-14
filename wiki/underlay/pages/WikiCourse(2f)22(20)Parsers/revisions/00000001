@@ -1,0 +1,24 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+## page was renamed from WikiCourse/22 Parser
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+= Parsers =
+== Input ==
+{{{{
+ {{{#!python
+ def hello(name):
+     print "Hello %s" % name
+ }}}
+}}}}
+
+== Display ==
+{{{#!python
+def hello(name):
+    print "Hello %s" % name
+}}}

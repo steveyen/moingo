@@ -1,0 +1,58 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+= Surge Protection =
+Especially on an internet wiki sometimes the cpu and disk load gets quite high because the wiki has to process many requests. A high load makes the wiki slow or unusable for its legitimate users.
+
+This is caused by:
+ * some bad guys (spammers, vandals, ...) trying to put spam or trash on your pages
+ * some less-bad guys (people just ''mirroring'' the wiki, without thinking about the load and the lots of useless requests and high traffic they cause)
+ * some bots, indexing the wiki content for some search engine
+
+== What can we do? ==
+MoinMoin tracks requests by user name (if logged in) or IP address (if not logged in).
+
+If the request count goes beyond some configured limit in some configured time interval, it will start to warn you (you will see a surge protection warning message instead of the expected wiki output). If you see this warning, just read it and do what it tells.
+
+You should stop doing those requests for a minute in that case (just read the stuff you already got, drink some water, ...). You will have no problems if you continue a while later (just slow down a bit, so you won't go beyond the limit again).
+
+If you don't pause and ignore the warnings and the requests don't stop hammering the wiki server, the wiki will think you are doing something nasty and will lock you out for some configurable amount of time.
+
+== Configuration ==
+Configuration is done as usual: in your wikiconfig. These are the built-in default values:
+
+{{{
+    surge_action_limits = { # allow max. <count> <action> requests per <dt> secs
+        # action: (count, dt)
+        'show': (20, 60),
+        'raw': (20, 40),  # some people use this for css
+        'AttachFile': (60, 60),
+        'diff': (30, 60),
+        'fullsearch': (5, 60),
+        'edit': (10, 120),
+        'rss_rc': (1, 60),
+        'default': (30, 60),
+    }
+    surge_lockout_time = 3600 # secs you get locked out when you ignore warnings
+}}} 
+
+== Hints ==
+=== Big proxy or firewall ===
+If you happen to be behind a big proxy or firewall (china? big company network?) you might get trouble with surge protection because all requests come from a single IP address, looking like a really nasty user or bot.
+
+But you can easily work around that by just logging in, so it really counts ''your'' requests (it uses your name in that case to count requests, not your proxy/firewall IP).
+
+You will also have no problem, if your proxy uses the 'x-forwarded-for' header with your real IP.
+
+=== Disabling surge protection ===
+(!) It is not advised to do that. If it triggers too fast, adjust the limits to your needs. Even in an intranet wiki, it is no good if a single user can make the wiki unusable for everybody by firing up some leech tool at it.
+
+If you want to do it nevertheless:
+
+{{{
+    surge_action_limits = None # disable surge protection
+}}}

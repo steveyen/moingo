@@ -1,0 +1,114 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= Authenticating against Windows-Domain using SSPI =
+<<TableOfContents>>
+
+For running moin in corporate environment access restrictions has to be enforced reliably. Generally, in these environments, centralized domain authentication is the preferred method.  Fortunately, this is easy to set up with moin 1.5 with the help of the SSPI-plugin for Apache.   This document will take you through the step-by-step for setting this up.
+
+ . For general information, see MoinMaster:HelpOnAuthentication
+== System Requirements ==
+ * '''Windows 2000, XP, or greater (including server).'''
+  * Apache doesn't require Windows Server (unlike IIS), so it's a great way to use an old desktop without requiring a Server license!
+  * mod_auth_sspi.so requires Apache on Windows, it will not work with a Linux/Unix install (sadly).
+ * '''Apache 2.0.xx.''' <<BR>>
+ . According to Apache.org, the Apache 1.3 series is not recommended for Windows installs, as it was developed primarily towards unix systems. Apache 2.0.x series is much more Windows-aware and friendly. Also, the mod_auth_sspi plugin requires Apache 2.0.x or later.
+ * '''a working install of a !MoinMoin wiki''' <<BR>>
+ . These instructions assume you've successfully set up a working moin configuration (based on MoinMaster:HelpOnInstalling/ApacheOnWin32) and you're expanding to include Domain Authentication.
+ * '''a Domain Controller ''' ;-)
+''note:'' Older versions of Windows is ''__not__'' recommended (including Win98, WinME, perhaps even WinNT) due to their obsolete process-handling methods.
+
+== Installing & Configuring ==
+The following section is broken into:
+
+ * downloading & installing the sspi module
+ * Configuring Apache http.conf file
+ * Configuring Moin wikiconfig.py file
+ * changing the user preference so it's more logical and relevant to domain authentication
+
+=== Download & Install mod_auth_sspi ===
+Before proceeding, make sure that you have a working and tested MoinMoin installation.  The last thing you want is to install it all at once, have something not working, and try to reverse-diagnose what went wrong and where.
+
+__Download SSPI__
+
+ 1. http://www.gknw.at/development/apache/httpd-2.0/win32/modules/
+  * Download the version that's appropriate to your server.  For example, the file  {{{mod_auth_sspi-1.0.4-2.0.58.zip}}} is SSPI version 1.0.4 built against Apache version 2.0.58.
+ 1. Unzip the sspi file, copy the mod_auth_sspi.so file into the Apache {{{modules}}} folder (generally located here: {{{c:\Program Files\Apache Group\Apache2\modules\}}}
+
+=== Apache Configuration ===
+Edit your {{{http.conf}}} file (usually found in {{{c:\Program Files\Apache Group\Apache2\conf\}}}). Use an appropriate text editor (such as [[http://www.textpad.com|TextPad]]), avoid using !NotePad.
+
+Scroll down to the {{{LoadModule}}} section, and add the line at the bottom of this section (this tells Apache to load the mod_auth_sspi.so module):
+
+{{{
+    LoadModule sspi_auth_module modules/mod_auth_sspi.so
+}}}
+
+Now, scroll down to the bottom of the {{{http.conf}}} file, and add the following:
+
+{{{
+#
+## Domain authentication using mod_auth_sspi.so
+#
+<IfModule !mod_auth_sspi.c>
+    LoadModule sspi_auth_module modules/mod_auth_sspi.so
+</IfModule>
+# Change /mywiki in the line below to match what you have in the separate ScriptAlias line.
+# If you explicitly followed the directions on ApacheOnWin32, this will be /mywiki
+<Location /mywiki>
+AuthType SSPI
+AuthName "Company Internal Wiki - Login using your DOMAIN username and password"
+Require valid-user
+SSPIAuth On
+SSPIAuthoritative On
+# replace the IP address below with the IP of your domain controller:
+SSPIDomain 192.168.1.15
+SSPIOmitDomain On
+SSPIOfferBasic On
+SSPIBasicPreferred On
+SSPIofferSSPI off
+</Location>
+}}}
+
+
+=== Wiki Configuration ===
+Now you will need to modify your Moin configuration so that user accounts are automatically created based on their domain authentication. Using an appropriate text editor, open the {{{wikiconfig.py}}} configuration file in the root of your moin install (if you followed the instructions on MoinMaster:HelpOnInstalling/ApacheOnWin32 explicitly, this file will be here {{{C:\Moin\mywiki\wikiconfig.py}}}).
+
+{{{
+    ## Domain Authentication using mod_auth_sspi.so
+    from MoinMoin.auth.http import HTTPAuth
+    auth = [HTTPAuth(autocreate=1)]
+}}}
+
+At this point, test your wiki and make sure you can successfully login (see the ''Logging in'' section below).  Congratulations if all is well!
+
+Optionally, you may want to add further modifications now that you are successfully using domain authentication.  These directives remove links and fields that are no longer relevant with domain authentication.  Back in the {{{wikiconfig.py}}} add following in the ''User Preferences'' section:
+
+{{{
+    # Remove the 'logout' link at the top of every page, since it no longer works with domain authentication:
+    show_login = 0
+    #
+    # Remove irrelevant fields from the user preferences:
+    user_form_remove = ['password', 'password2', 'logout',]
+    #
+    # Remove irrelevant checkboxes from the user preferences (disable at Domain Server instead):
+    user_checkbox_remove = [ 'disabled', ]
+}}}
+
+=== Customize user preferences ===
+As administrator (you did add yourself as superuser in {{{wikiconfig.py}}}, right?! ;-) ), you will want to customize the user preferences dialogues, since most of them is no longer relevant.
+
+In the dist archive under `wiki/config/more_samples` is a config snippet that shows how to customize user preferences, please see there!
+
+=== Auto-email completion ===
+
+Because we're on a domain (and presumably everyone has the same email domain), wouldn't it be neat to auto-fill in the email address for our users?
+
+See MoinMoin:MoinMoinPatch/HttpAuthAutoEmail for a patch!
+
+== Logging in ==
+With normal browsers like mozilla or firefox you have to enter 'domain\username' as username and your password. Only IE shows a dialog with three fields (sometimes) instead of two: name, domain, password.

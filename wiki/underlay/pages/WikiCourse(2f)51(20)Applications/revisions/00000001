@@ -1,0 +1,24 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:
+##master-date:
+#acl -All:write Default
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+= Applications =
+
+A wiki is usable for quite a few applications, because there few requirements to use it and the content can be anything.
+You can use it for everything that can be displayed by linked text pages.
+
+== Examples ==
+ * personal notes (instead of wasting paper)
+ * conference protocols
+ * to-do lists
+ * news on wiki homepage, asynchronous communication
+ * common creation of documentation
+ * brainstorming
+ * personal or collective link lists
+ * efficient alternative to e-mail or phone
+ * much more

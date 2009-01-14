@@ -1,0 +1,22 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+
+Welcome to MoinMoin. You will find here the help pages for the wiki system itself.
+
+If you would like a quick overview of MoinMoin's syntax, have a look at HelpOnMoinWikiSyntax. If you are looking for a structured introduction, have a look at the WikiCourse.
+
+ * HelpForUsers - is help for users who are new to a MoinMoin wiki.
+ * Go to HelpForAdministrators if you are about to install a MoinMoin wiki or want to learn how to administrate one.
+ * Go to HelpForDevelopers if you want to learn how to add your own features by changing the MoinMoin code.
+ * HelpMiscellaneous - more details, and a FAQ section.
+ * HelpIndex - is a list of all available help pages.
+
+(!) Fulltext search is available on FindPage.
+
+----
+~-''If you find any errors on the help pages, please describe them on MoinMoin:HelpErrata. Please do not edit or create help pages in other wikis than Moin''''''Master (see MoinMaster:HelpContents), because the pages from Moin''''''Master will overwrite any other changes on wiki engine upgrades. Please follow the established structure of help pages if you want to change pages in Moin''''''Master. Before doing any major or widespread changes please discuss that on the mailing list or Moin''''''Moin wiki.''-~

@@ -1,0 +1,316 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:None
+##master-date:None
+#acl -All:write Default
+#format wiki
+#language en
+<<Navigation(children)>> 
+<<BR>><<BR>>
+<<TableOfContents>>
+
+== Macros ==
+Macros allow the insertion of system features into normal wiki pages; the only thing that makes those pages special is that they contain macros. If you edit pages like RecentChanges or SystemInfo, you'll see what that means.
+
+For more information on the possible markup, see HelpOnEditing and HelpOnMoinWikiSyntax.
+
+=== Search macros ===
+MoinMoin now uses a new search engine, that lets your make sophisticated searches using both the interactive search box or any of the search macros. For more help, see HelpOnSearching.
+||||||'''Macro''' ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> '''Description''' ||'''Example''' ||
+||||||{{{<<AdvancedSearch>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> create an advanced search dialogue on the page || See FindPage ||
+||||||{{{<<TitleSearch>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> create a search box on the page, which search the page titles || See FindPage ||
+||||||{{{<<FullSearch>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> create a search box on the page, which search the page contents || See FindPage ||
+||||||{{{<<FullSearch()>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> print a list of pages whose content matches the current page title (like clicking on the page title) || See the CategoryCategory page ||
+||||||{{{<<FullSearch(text)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> print a list of pages whose content matches the search term || ||
+||||||{{{<<FullSearchCached(text)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Works like the {{{FullSearch}}} macro but caches the results statically. Use it if you prefer speed over an up-to-date result || ||
+||||||{{{<<GoTo>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> directly go to the page you enter || See the FindPage ||
+||||||{{{<<PageList(Help)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> print a list of pages whose title matches the search term || See the HelpIndex ||
+
+
+=== Navigation ===
+||||||'''Macro''' ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> '''Description''' ||'''Example''' ||
+||||||{{{<<RecentChanges>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> a list of recently edited pages || See RecentChanges ||
+||||||{{{<<TitleIndex>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> an index of all page titles || See TitleIndex ||
+||||||{{{<<WordIndex>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> an index of all words in page titles || See WordIndex ||
+||||||{{{<<WantedPages>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> list links to non-existent pages || See WantedPages ||
+||||||{{{<<OrphanedPages>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> list pages no other page links to || See OrphanedPages ||
+||||||{{{<<AbandonedPages>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> list pages that were not edited for the longest time || See AbandonedPages ||
+||||||{{{<<RandomPage>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> a link to a random page || {{{<<RandomPage>>}}} ||
+||||||{{{<<RandomPage(#)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> links to a number of random pages || Two random pages: {{{<<RandomPage(2)>>}}} ||
+||||||{{{<<TableOfContents([maxdepth])>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> display a local table of contents, possibly limited to a maximal depth || See above ||
+||||||{{{<<Anchor(anchorname)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> macro to insert anchors into a page || <<Anchor(here)>>#here ||
+||||||{{{<<Navigation(children[,maxdepth])>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> macro to list all of a pages' children || See start of this page ||
+||||||{{{<<Navigation(siblings[,maxdepth])>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> quick navigation to siblings of a page || See /MailTo ||
+||||||{{{<<Navigation(slideshow)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> creates a link to toggle between slide show and wiki mode, and a link to start the slide show || See HelpOnSlideShows ||
+||||||{{{<<Navigation(slides)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> displays first/prev/next/last links || See HelpOnSlideShows ||
+||||||{{{<<AttachInfo>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> displays number of attachments for current page || See HelpOnActions/AttachFile ||
+||||||{{{<<AttachInfo(page)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> displays number of attachments for page || See HelpOnActions/AttachFile ||
+||||||{{{<<AttachList(pagename,mimetype)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> displays list of attachments || See HelpOnActions/AttachFile ||
+
+=== System information ===
+||||||'''Macro''' ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> '''Description''' ||'''Example''' ||
+||||||{{{<<Hits>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> a counter for page hits {{{<<Hits([all=(False,True)][,event_type=(VIEWPAGE,SAVEPAGE)]>>}}}|| <<Hits>> ||
+||||||{{{<<InterWiki>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> a list of all known InterWiki names || InterWiki ||
+||||||{{{<<SystemInfo>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> info on the wiki, the python interpreter and the host system || SystemInfo ||
+||||||{{{<<PageCount(exists)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> current page count. If {{{exists}}} is supplied as an argument, only existing pages will be shown. || {{{<<PageCount>> pages}}} ||
+||||||{{{<<PageSize>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> list the sizes of all pages || See PageSize ||
+||||||{{{<<StatsChart(type)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> shows statistical charts (currently defined types: hitcounts, pagesize, useragents, languages) || See EventStats and subpages ||
+||||||{{{<<SystemAdmin>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Information for system administrators || You need to be superuser to use this macro <<BR>> {{{<<SystemAdmin>>}}} ||
+||||||{{{<<EditedSystemPages>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> A list of system pages that were modified || {{{<<EditedSystemPages>>}}} ||
+||||||{{{<<WikiConfig>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Shows wiki configuration settings which are either non-default or unknown.||You need to be superuser to use this macro <<BR>> {{{<<WikiConfig>>}}} ||
+||||||{{{<<WikiConfigHelp>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Shows all wiki configuration settings with descriptions || {{{<<WikiConfigHelp>>}}} ||
+=== Others ===
+||||||'''Macro''' ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> '''Description''' ||'''Example''' ||
+||||||{{{<<Action(action [,text])>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;">links to page with valid action, optional text could be used as alias. (action names are case sensitive)||  e.g. `<<Action(print, Print this page)>>`, <<Action(print, Print this page)>>||
+||||||{{{<<Icon(image)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;">display system icons ||  See HelpOnNavigation ||
+||||||{{{<<BR>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> insert a line break || 1st line<<BR>>2nd line ||
+||||||{{{<<RandomQuote(pagename)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Select a random quote from the given page, or from {{{FortuneCookies}}} if omitted || {{{<<RandomQuote>>}}} ||
+||||||{{{<<Include(HelloWorld[,"heading"[,level]])>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> include contents of another page || for details see [[/Include]] ||
+||||||{{{<<FootNote(text)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Add a footnote<<FootNote(the text cannot contain any wiki markup)>>, or explicitly display collected footnotes when no args are given || See below for an example. ||
+||||||{{{<<Date(timestamp)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> display a timestamp according to system settings || <<Date>> ||
+||||||{{{<<DateTime(timestamp)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> display a timestamp<<FootNote("timestamp" can be empty (current time), a number of seconds since 1970 (unix timestamp), or a W3C time specification ("2002-01-23T12:34:56"). See RFC822, sect. 5. )>> according to user settings || <<DateTime>> ||
+||||||{{{<<GetText(text)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> loads I18N texts (mainly intended for use on Help pages) || "Edit``Text" is translated to "<<GetText(EditText)>>" ||
+||||||{{{<<GetText2(,message,argument1,argument2,...)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> loads I18N texts (mainly intended for use on Help pages or in generated output on wiki pages) and replaces `%s` in the message by the arguments. The first character of the argument is used as the separator (in this example: a comma). You can escape the separator by using a backslash. || "`<<GetText2(,[You may not read %s],FooBar)>>`" yields "<<GetText2(,[You may not read %s],FooBar)>>" ||
+||||||{{{<<TeudView>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> useful for intranet developer wikis, a means to view pydoc documentation, formatted via a XSLT stylesheet || See http://twistedmatrix.com/wiki/python/TeudProject ||
+||||||{{{<<MailTo(email)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> protect your email address from spam bots || for details see /MailTo ||
+||||||{{{<<NewPage(PageTemplate,ButtonLabel,[ParentPage,@ME,@SELF] [,NameTemplate])>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Allow the user to create (sub-) pages easily, using the page {{{PageTemplate}}}as the template for the new page and the string {{{NameTemplate}}} as a template for the name.<<FootNote(`NameTemplate` is formatted with `time.strftime()`, with the exception of `%s` which is replaced by the input into the edit box (which is only shown if necessary). If `NameTemplate` is not specified or empty, it defaults to `%s`.)>> `@ME` is used if you want the  page created below the users homepage. `@SELF` is used to create a subpage below the page where it is called from. || <<NewPage(CategoryTemplate, Create new category,,Category%s)>> ||
+||||||{{{<<GetVal(NeatSnippets,regards)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Retrieve dictionary entries from dict pages. || If you have a page called GermanDict which contains the entry ''Test'', you should see the translation here: <<GetVal(GermanDict,Test)>> ||
+||||||{{{<<MonthCalendar(,,12)>>}}} ||
+||<5%><<BR>>||<75% style="margin: 10px; vertical-align: top;"> Displays a Calendar and creates link for entries to each day on subpages || See /MonthCalendar ||
+
+<<FootNote>>
+
+== Writing your own macro ==
+Create a python file called {{{MacroName.py}}} located in your {{{data/plugin/macro}}} directory. Ensure it has a single function called {{{macro_MacroName(macro, arg1, arg2, ...)}}}, which is the entry-point.
+
+ * the first argument ''macro'' is an instance of class Macro, and also evaluates to a string of the macroname,
+ * arguments arg1, arg2, ... are the arguments given by the user, but special rules apply, see below.
+
+You can access the `request` object by using `macro.request` - e.g. to access form parameters and other information related to user interaction.
+
+Your function should use the formatter to construct valid markup for the current target format. In most cases this is HTML, so writing a macro which returns HTML will work in most cases but fail when formats like XML or {{{text/plain}}} are requested - you can use `macro.formatter` to access the current formatter.
+
+For example, your wiki page has the following line on it:
+
+{{{
+<<MacroName(True, 1.7772, 17)>>
+}}}
+
+You could write a !MacroName.py file like this:
+
+{{{
+#!python
+
+from wikiutil import get_unicode, get_bool, get_int, get_float
+
+Dependencies = []
+generates_headings = False
+
+def macro_MacroName(macro, arg1, arg2, arg3=7):
+    # arguments passed in can be None or a unicode object
+
+    arg1 = get_bool(macro.request, arg1)
+    arg2 = get_float(macro.request, arg2)
+    # because arg3 has a default of 7, it is always of type int or long
+
+    return macro.formatter.text("arguments are: %s %2.3f %d" % (arg1, arg2, arg3))
+}}}
+ . /!\ Add an entry into {{{Dependencies}}} if the output from your macro should not be cached. This is important if the macro output could change from one moment to another, for example if your macro searches in wiki pages which may be being edited by other users, or loads information from an external database whose contents may change. Currently the value of any entry does not matter and may be considered a short description for 'why results from this macro should not be cached', but please look at the entries used in other macros for values which may be suitable.
+<<FootNote>>
+
+If your macro can generate headings (by calling `macro.formatter.heading()`) then set `generates_headings` to True to allow the `TableOfContents` macro to evaluate your macro for headings to take into the table of contents.
+
+=== Macro arguments ===
+The arguments given to your macro are normally passed as unicode instances or `None` if the user gave no argument.
+
+Consider this example macro:
+{{{#!python
+
+def macro_Example(macro, arg1, arg2):
+  ...
+}}}
+
+and the wiki code (together with the result)
+{{{
+ 1. <<Example()>>            - passes None, None
+ 2. <<Example(a,b)>>         - passes u'a', u'b'
+ 3. <<Example(,)>>           - passes None, None
+ 4. <<Example("",)>>         - passes u'', None
+}}}
+
+==== default values ====
+
+If your macro declares default values as in this example:
+{{{#!python
+
+def macro_Example(macro, arg1=7, arg2=2.1):
+  ...
+}}}
+
+Then the arguments can be skipped or left out and are automatically converted to the type of the default value:
+
+{{{
+ 1. <<Example()>>            - passes 7, 2.1
+ 2. <<Example(,3)>>          - passes 7, 3.0
+ 3. <<Example(2)>>           - passes 2, 2.1
+ 4. <<Example(a,7.54)>>      - error, "a" not an integer
+}}}
+
+Additionally, it is possible to declare the type you would like to get:
+{{{#! python
+
+def macro_Example(macro, arg1=int, arg2=float):
+  ...
+}}}
+
+This requires that the user enters the correct parameter types, but it is possible to skip over them by giving an empty argument in which case it'll be passed into the macro code as `None`:
+{{{
+ 1. <<Example()>>            - passes None, None
+ 2. <<Example(a, 2.2)>>      - error, "a" not an integer
+ 3. <<Example(7, 2.2)>>      - passes 7, 2.2
+ 4. <<Example(, 3.14)>>      - passes None, 3.14
+}}}
+==== unit arguments ====
+If your macro declares unitsarguments then units are required as in this example:
+{{{#!python
+from MoinMoin import wikiutil
+def macro_Example(macro, arg1=wikiutil.UnitArgument(None, float, ['px', '%'], defaultunit='px')):
+    if arg1:
+        if arg1[1] == 'px':
+            arg1 = '%dpx' % int(arg1[0])
+        else:
+            arg1 = '%g%s' % arg1
+    return macro.formatter.text("argument is: %s" % (arg1))
+}}}
+The  defaultunit of px is used if the user does not enter a unit. He has to enter valid units of px or %. 
+
+{{{
+ 1. <<Example()>>             - argument is: None
+ 2. <<Example(100)>>          - argument is: 100px
+ 3. <<Example(100mm)>>        - <<Example: Invalid unit in value 100mm (allowed units: px, %)>>
+ 4. <<Example(100px)>>        - argument is: 100px
+}}}
+
+==== choices ====
+
+If your plugin takes one of several choices, you can declare it as such:
+{{{#!python
+
+def macro_Example(macro, fruit=(u'apple', u'orange')):
+  ...
+}}}
+
+This requires that the user enter any of the given choices and uses the first choice if nothing is entered:
+{{{
+ 1. <<Example(apple)>>       - passes u'apple'
+ 2. <<Example(OrAnGe)>>      - error, tells user which choices are valid
+ 3. <<Example()>>            - passes u'apple'
+}}}
+
+==== required arguments ====
+
+If you require some arguments, you can tell the generic code by using the `required_arg` class that is instantiated getting the type of the argument:
+{{{#! python
+from MoinMoin.wikiutil import required_arg
+
+def macro_Example(macro, arg1=required_arg(int)):
+  ...
+}}}
+
+This requires that the user enters the argument:
+{{{
+ 1. <<Example()>>            - error, argument "arg1" required
+ 2. <<Example(4.3)>>         - error, "4.3" not an integer
+ 3. <<Example(5)>>           - passes 5
+}}}
+
+
+==== keyword arguments ====
+If your macro needs to accept arbitrary keyword arguments to pass to something else, it must declare a `_kwargs` parameter which should default to the empty dict:
+{{{#!python
+
+def macro_Example(macro, _kwargs={}):
+  ...
+}}}
+
+This makes the user able to pass in anything, even arbitrary unicode strings as key names:
+{{{
+ 1. <<Example(äöü=7)>>       - passes the dict {u'äöü': u'7'}
+ 2. <<Example(=7)>>          - passes the dict {u'': u'7'}
+ 3. <<Example(a=1,"d e"=3)>> - passes the dict {u'a': u'1', u'd e': u'3'}
+ 4. <<Example(a)>>           - error, too many (non-keyword) arguments
+}}}
+
+==== trailing arguments ====
+Trailing arguments allow your macro to take any number of positional arguments, or to be able to handle the syntax of some existing macros that looks like
+{{{
+[[Macro(1, 2, 3, name=value, name2=value2, someflag, anotherflag)]].
+}}}
+
+In order to handle this, declare a `_trailing_args` macro parameter which should have a an empty list as the default:
+{{{#!python
+
+def macro_Example(macro, i1, i2, i3, name, name2, _trailing_args=[]):
+  ...
+}}}
+
+Also, when the user gives too many arguments, these are put into `_trailing_args` as in the second example:
+{{{
+ 1. <<Example(1, 2, 3, name=test, name2=test2, flag1)>>   - valid, passes u'flag1' in _trailing_args
+ 2. <<Example(1, 2, 3, test, test2, flag1)>>              - same
+}}}
+
+It is possible to use this feature together with the arbitrary keyword arguments feature `_kwargs`.

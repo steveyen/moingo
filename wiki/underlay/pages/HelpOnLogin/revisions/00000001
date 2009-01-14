@@ -1,0 +1,18 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+Many actions in a MoinMoin wiki depend on your rights as a user. Some things like subscribing to page can only be done if you are a registered user logged into the wiki.
+
+Here are the steps to become a user that is recognized by the wiki (in the default configuration):
+
+ 1. Go to <<Action(newaccount,the new account page)>> which is also linked from the login page and fill in the required details.
+  * (!) It is best to choose a WikiName (like Firstname``Lastname) as username to get your changes and signatures link back to your Wiki``Homepage. Your email is needed for you to be able to get notifications on page changes and to recover lost login data.
+ 1. After you created an account you are '''NOT''' logged in. You have to go to Login (often on top of page, but the exact naming and location depends on the theme).
+
+After you have logged in you can create your own homepage by clicking on your user name - or you can be added to a !WikiGroup to be able to access some pages that are hidden from the public. Please ask the administrator for these pages to add your name to the user list of this group.
+
+For more information read HelpOnUserPreferences.

@@ -1,0 +1,67 @@
+Metadata-Version: 1.0
+Name: moin
+Version: 1.8.1
+Summary: MoinMoin 1.8.1 is an easy to use, full-featured and extensible wiki software package
+Home-page: http://moinmo.in/
+Author: Juergen Hermann et al.
+Author-email: moin-user@lists.sourceforge.net
+License: GNU GPL
+Download-URL: http://static.moinmo.in/files/moin-1.8.1.tar.gz
+Description: 
+        MoinMoin is an easy to use, full-featured and extensible wiki software
+        package written in Python. It can fulfill a wide range of roles, such as
+        a personal notes organizer deployed on a laptop or home web server,
+        a company knowledge base deployed on an intranet, or an Internet server
+        open to individuals sharing the same interests, goals or projects.
+Keywords: wiki web
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: No Input/Output (Daemon)
+Classifier: Environment :: Web Environment
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Intended Audience :: Customer Service
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Intended Audience :: Healthcare Industry
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Legal Industry
+Classifier: Intended Audience :: Manufacturing
+Classifier: Intended Audience :: Other Audience
+Classifier: Intended Audience :: Religion
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Telecommunications Industry
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: Natural Language :: Chinese (Simplified)
+Classifier: Natural Language :: Chinese (Traditional)
+Classifier: Natural Language :: Danish
+Classifier: Natural Language :: Dutch
+Classifier: Natural Language :: English
+Classifier: Natural Language :: French
+Classifier: Natural Language :: German
+Classifier: Natural Language :: Hebrew
+Classifier: Natural Language :: Hungarian
+Classifier: Natural Language :: Italian
+Classifier: Natural Language :: Javanese
+Classifier: Natural Language :: Korean
+Classifier: Natural Language :: Norwegian
+Classifier: Natural Language :: Russian
+Classifier: Natural Language :: Serbian
+Classifier: Natural Language :: Spanish
+Classifier: Natural Language :: Vietnamese
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: Microsoft :: Windows :: Windows 95/98/2000
+Classifier: Operating System :: Microsoft :: Windows :: Windows NT/2000
+Classifier: Operating System :: OS Independent
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: POSIX :: BSD :: FreeBSD
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python
+Classifier: Topic :: Communications :: Conferencing
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Office/Business :: Groupware
+Classifier: Topic :: Text Processing :: Markup

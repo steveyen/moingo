@@ -1,0 +1,180 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:None
+##master-date:None
+#acl -All:write Default
+#format wiki
+#language en
+HelpContents > HelpForAdministrators > HelpOnConfiguration
+
+This page should help you with configuring an already installed MoinMoin wiki. If you have not installed one yet please go to HelpOnInstalling.
+
+<<TableOfContents>>
+
+= General =
+<<Anchor(character-set)>>
+== Character Set ==
+
+Moin uses Unicode internally, and `utf-8` for external output and input, like pages, HTML output and translation files. The external character set is defined in `config.charset` to `utf-8`. This setting is fine for all languages, as any character can be encoded in UTF-8. You should not change this value, although technically it is possible.
+ 
+ <!> '''Important: to use Unicode values, you must setup a correct coding line in the first line of your configuration file. Check that your editor is configured correctly.'''
+
+Certain options '''must''' use Unicode values. For example, the site name could contain German umlauts or French accents or be in Chinese or Hebrew. Because of this, you must use unicode strings for those items. Unicode strings are defined by prefixing the letter `u` to the string. Here are some examples:
+
+{{{
+    # Site name, used by default for wiki name-logo [Unicode]
+    sitename = u"Jürgen's Wiki"
+    # another example:
+    sitename = u'הוויקי של יורגן'
+}}}
+
+Read the comments in the configuration file - they tell you which options must use Unicode values.
+
+Notes:
+
+ * You can't mix different encodings in the same file. If your coding line says `iso-8859-1`, all your characters, the whole file content, must be in that encoding.
+
+ * If you use utf-8 encoding (or plain ascii), you don't have to use unicode strings, moin will decode your string correctly for you.
+
+<<Anchor(intsetup)>>
+== International Setup ==
+
+The default configuration file shipped with moin uses `iso-8859-1` coding. This is fine for Latin languages like English or German, but not usable for non-latin languages. If you want to have non-latin characters in your configuration items, use utf-8 coding for the config file.
+
+Set the first line of all configuration files to this line:
+{{{
+# -*- coding: utf-8 -*-
+}}}
+
+ /!\ You need a text editor being capable of (and also really using) utf-8 encoding for editing the config files.
+
+Values using unicode strings can be recognized by their default value being `u"...."` or `ur"..."` (the `u` means unicode) or when the description explicitly tells `[unicode]`.
+
+For ready made configuration in your language, see MoinMoin:ConfigMarket. Read also the section about unicode options.
+
+== Customization of user preferences ==
+You can predefine, disable or remove several options in the user preferences, see HelpOnConfiguration/UserPreferences.
+
+<<Anchor(singlewiki)>>
+= Configuring a single wiki =
+
+If you run a single wiki, you should not copy the file `farmconfig.py` into your configuration directory (remove it and the `.pyc` file, if it is there). Without farmconfig, moin uses the default `wikiconfig.py`.
+
+`wikiconfig.py` can be located anywhere, you just have make sure it can be imported by moin - it is a good idea to add the directory where it resides as first element to `sys.path` (this is the list of pathes python uses when searching for importable stuff). `sys.path` setup is done early, usually in the server adaptor script you use (e.g. `moin.cgi` or `moin.wsgi`) - see the comments in the script for details.
+
+General notes on wiki/farmconfig.py structure:
+{{{
+# -*- coding: iso-8859-1 -*-
+
+from MoinMoin.config.multiconfig import DefaultConfig
+
+class Config(DefaultConfig):
+
+    sitename = u'MyWiki'   # u means that it will be converted to Unicode
+    interwikiname = 'MyWiki'
+    data_dir = '/where/ever/mywiki/data/'
+    underlay_dir = '/where/ever/mywiki/underlay/'
+    
+    # More settings follow...
+}}}
+
+ * First, you must define the coding of the config file. The default setting is suited for Latin ("western") languages only, for international setup, read  section [[#intsetup]]. If you don't define the coding, you can't use non-ascii characters.
+
+ * Next we import moin's internal default configuration. The default configuration includes values for all options, so we don't have to define all values, just what we want to customize.
+
+ * Then we define a new configuration class called "Config" and inherit all settings from the default configuration we imported. Note that the class name must be "Config".
+
+ * Next lines are the configuration options for the Config class. Note that each line must be indented by 4 spaces, tabs are not allowed. Moin will not run if you use wrong indentation.
+
+ * A common configuration item is `sitename` - in most cases you don't want your wiki to have the default u"Untitled Wiki" name. You can define any name you like in any language, but before you do that, read section [[#character-set]].
+
+ * If you followed the install instructions, the wiki will run without any other change, but you might want to change some values, like `data_dir`, `data_underlay_dir` `acl_rights_before` and more. For most cases, setting all the values in the supplied `wikiconfig.py` file is enough.
+
+ * Anything we do not define simply stays at moin's internal defaults which we inherited from Default''''''Config.
+
+
+<<Anchor(multiwiki)>>
+= Configuration of multiple wikis =
+
+The moinmoin wiki engine is capable of handling multiple wikis using a single installation, a single set of configuration files and a single server process. Especially for persistent environments like Twisted, this is necessary, because the Twisted server will permanently run on a specific IP address and TCP port number. So for virtual hosting of multiple domains (wikis) on the same IP and port, we need the wiki engine to permanently load multiple configs at the same time and choose the right of them when handling a request for a specific URL.
+
+To be able to choose the right config, moin uses config variable `wikis` located in the file `farmconfig.py` - it simply contains a list of pairs `(wikiname, url-regex)`. Please only use valid python identifiers for `wikiname` (to be exact: `identifier ::= (letter|"_") (letter | digit | "_")*` - just try with a simple word if you didn't understand that grammar rule). When processing a request for some URL, moin searches through this list and tries to match the url-regex against the current URL. If it doesn't match, it simply proceeds to the next pair. If it does match, moin loads a configuration file named `<wikiname>.py` (usually from the same directory) that contains the configuration for that wiki.
+
+`farmconfig.py` in the distribution archive has some sample entries for a wiki farm running multiple wikis. You need to adapt it to match your needs if you want to run multiple wikis.
+
+/!\ For simpler writing of these help pages, we will call such a `<wikiname>.py` configuration file simply `wikiconfig.py`, of course you have to use the filename you chose.
+
+Of course you have already adapted the `wikis` setting in `farmconfig.py` (see above), so we only give some hints how you can save some work. Please also read the single wiki configuration hints, because it explains config inheritance.
+
+We now use the class-based configuration to be able to configure the common settings of your wikis at a single place: in the base configuration class (see `farmconfig.py` for an example):
+
+'''farmconfig.py''':
+{{{
+# -*- coding: iso-8859-1 -*-
+# farmconfig.py:
+from MoinMoin.config.multiconfig import DefaultConfig
+class FarmConfig(DefaultConfig):
+    url_prefix = '/wiki'
+    show_hosts = True
+    underlay_dir = '/where/ever/common/underlay'
+    # ...
+}}}
+
+ Explanation:
+  * first we import the default config, like we do when configuring a single wiki
+  * now we define a new farm config class - and inherit from the default config
+  * then we change everything that our farm wikis have in common, leaving out the settings that they need to be different
+  * this Farm''''''Config class will now be used by the config files of the wikis instead of moin's internal Default''''''Config class, see below:
+
+The configs of your individual wikis then only keep the settings that need to be different (like the logo, or the data directory or ACL settings). Everything else they get by inheriting from the base configuration class, see `moinmaster.py` for a sample.
+
+'''moinmaster.py''':
+{{{
+# -*- coding: iso-8859-1 -*-
+# moinmaster.py:
+from farmconfig import FarmConfig
+class Config(FarmConfig):
+    show_hosts = False
+    sitename = u'MoinMaster'
+    interwikiname = 'MoinMaster'
+    data_dir = '/org/de.wikiwikiweb.moinmaster/data/'
+    # ...
+}}}
+
+ Explanation:
+  * see single wiki configuration, the only difference is that we inherit from Farm''''''Config (that inherited from Default''''''Config) instead of directly using Default''''''Config
+  * now we override show_hosts to be `False` - we want it for most wikis in our farm, but not for this one
+  * we also override sitename, interwikiname and data_dir (the usual stuff)
+
+<<Anchor(index)>>
+= Overview of Configuration Options =
+
+The following table contains default values and a short description for most configuration variables. Most of these can be left at their defaults, those you need to change with every installation are listed in the sample `wikiconfig.py` that comes with the distribution.
+
+(!) You can also have a look at `MoinMoin/config/multiconfig.py`, `class DefaultConfig` for further information (that file has the builtin default configuration).
+
+<<WikiConfigHelp>>
+
+Some values can only be set from `MoinMoin/config/__init__.py` (part of the moin code and thus GLOBALLY changing behaviour of all your wikis), but not from the individual wiki's config - you should only touch them if you know what you are doing:
+|| charset || `'utf-8'` || the encoding / character set used by the wiki <!> '''Do not change `config.charset`. It is not tested and we can't support this.'''  ||
+|| lowerletters || ''ucs-2 lowercase letters'' || Lowercase letters, used to define what is a WikiName ||
+|| smileys || `[...]` || a list of smiley markups moin supports - image and image sizes are defined in the theme code. ||
+|| umask || `0770` || umask used by moin, the default gives rights to owner and group, but not to world. ||
+|| upperletters || ''ucs-2 uppercase letters'' || uppercase letters, used to define what is a WikiName ||
+|| url_schemas || `['http', 'ftp', ...]` || URL schemas you want to have recognized ||
+
+
+= Related Topics =
+ * HelpOnInstalling/StandaloneServer
+ * HelpOnAccessControlLists - how to manage access to pages with ACLs
+ * HelpOnThemes - how to change the appearance of your wiki
+ * HelpOnSpellCheck - how to configure and maintain the spell checking option
+ * /EmailSupport - how to work with emails in MoinMoin.
+ * HelpOnXmlPages (configure both XML and !DocBook rendering)
+ * /SecurityPolicy
+ * /FileAttachments
+ * /ApacheVoodoo
+ * /SurgeProtection
+
+----
+HelpForDevelopers HelpForUsers

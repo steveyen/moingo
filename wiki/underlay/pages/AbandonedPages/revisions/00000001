@@ -1,0 +1,10 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+Pages that have not been edited for longer than all other pages (and thus a listing of the oldest entries in the editlog).
+
+<<AbandonedPages>>

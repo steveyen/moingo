@@ -1,0 +1,11 @@
+##master-page:SlideTemplate
+##master-date:Unknown-Date
+#format wiki
+#language en
+#pragma section-numbers off
+<<Navigation(slides)>>
+= Title =
+
+...
+
+##<<Navigation(siblings)>>

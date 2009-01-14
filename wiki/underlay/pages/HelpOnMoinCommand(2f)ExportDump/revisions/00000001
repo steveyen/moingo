@@ -1,0 +1,87 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+= Creating a HTML dump of wiki content =
+"moin export dump" is an HTML export utility to create static HTML dumps of wiki content.
+
+(!)  You can dump the entire wiki, a single page, or several pages matching a regular expression.  
+
+== Example ==
+
+To execute moin export dump, use the command line interface to execute the moin script utility.  The trailing backslash characters indicate line continuation in the example below.  If your OS does not support command line continuation, key the entire command on a single line.
+
+{{{
+moin --config-dir=/mywiki \
+     --wiki-url=www.myorg.org/mywiki/ \
+     export dump \
+     --page=WikiSandBox \
+     --target-dir=/home/myname/outputdir \
+     --username=MyName
+}}}
+
+
+The `--config-dir` parameter is required and must point to the directory containing your wikiconfig.py script.
+
+The `--wiki-url` parameter is required and must point to the starting URL of your wiki.
+
+The `export dump` parameters are required and indicate moin.py should execute the dump.py script in the `export` subdirectory.
+
+The `--page` parameter is optional and will dump pages matching the pagename.  This may be a regex to select multiple matching pages. If omitted, the contents of the entire wiki will be dumped, excluding the underlay pages.
+
+The `--target-dir` specifies the output directory and is required.
+
+The `--username` parameter is optional. With the parameter, the output is limited by ACL rules to pages that can be read by the username.  Without the parameter, the output is limited to pages that can be read by ''all''.
+
+Note the `--page`, `--target-dir`, and `--username` parameters must follow the `export dump` parameters.
+
+== Example with --page parameter using regular expression ==
+
+This example exports all pages beginning with the paths:
+ * Templates/Documentation/CSSGuide
+ * Templates/Documentation/HtmlGuide
+ * Templates/Documentation/TemplateGuide
+
+Each of the above has several sub-pages, which are all exported, eg. Templates/Documentation/TemplateGuide/GenericTemplate
+
+{{{
+   python /pathToPython/site-packages/MoinMoin/script/moin.py \
+                  --config-dir=/pathToPython/site-packages/wiki/config/ \
+                  --wiki-url=http://www.myorg.org/mywiki/ \
+                  export dump \
+                  --page "Templates/Documentation/(CSSGuide|HtmlGuide|TemplateGuide).*" \
+                  --target-dir=/home/myname/outputdir
+}}}
+
+== Output ==
+
+The output directory will be populated with HTML pages corresponding to each page in your wiki, or as limited by the `--page` option and ACL rules. 
+
+An `index.html` file will be created with the contents of your Front``Page or the first page selected by the `--page` option.  An `attachments` subdirectory will be created and all page attachments will be copied.  An `error.log` file will be created.
+
+If the `--page` parameter is not supplied,  the `TitleIndex.html` and `WordIndex.html` pages will be created. 
+
+== Copy CSS Files and PNG Icons ==
+
+The output pages will contain references to the .CSS and .PNG files defined within your wiki's default theme.  To make these files available, locate the Moin `htdocs` subdirectory and copy the entire subdirectory of your default theme to the output directory.  For example, if your default theme is `modern` and the output directory specified by the `--target-dir` is `mywikiexport` then the output directory structure should look like:
+
+{{{
+  mywikiexport
+    attachments
+    modern
+      css
+      img
+}}}
+
+== Known limitations ==
+
+ * No theme support, a very simple hardcoded theme is used.
+   * Hardcoded "theme" has links to `FrontPage`, `TitleIndex`, and `WordIndex` on every page.
+   * None of the above pages are created when only selected pages are dumped.
+ * No selection of user language (UI).
+ * `show_section_numbers=1` is not supported.
+ * Hyperlinks on some system pages do not work correctly. 
+   * Attachments hyperlinks and '' show system pages'' on `TitleIndex` and `WordIndex` pages are invalid.

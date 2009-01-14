@@ -1,0 +1,20 @@
+## Please edit system and help pages ONLY in the master wiki!
+## For more information, please see MoinMoin:MoinDev/Translation.
+##master-page:Unknown-Page
+##master-date:Unknown-Date
+#acl -All:write Default
+#format wiki
+#language en
+HelpContents > HelpForDevelopers
+
+'''MoinMoin''' would be missing a lot of features without the help of its users and developers. !MoinMoin is written in Python<<FootNote(Python Homepage: http://www.python.org/)>> and uses the Mercurial<<FootNote(Mercurial Homepage: http://www.selenic.com/mercurial/)>> version control system. Information on the !MoinMoin source code and other developer issues can be found on MoinMoin:MoinDev (main wiki) and its subpages. Here is what you can do to help improve !MoinMoin:
+
+ * If something looks broken send in a '''[[MoinMoin:MoinMoinBugs|bug report]]''' (first search existing bugs and MoinMoin:KnownIssues)
+ * If something looks like it is missing make a '''[[MoinMoin:FeatureRequests|FeatureRequest]]''' (also search before writing a new).
+ * '''Develop new extensions''': Create macros, actions, or parsers (MoinMoin:MoinMoinExtensions)
+ * '''Help with Development Version''': Help test and develop MoinMoin (MoinMoin:MoinDev).
+ * '''Create Patches''': Fix bugs and write patches (HelpOnPatchCreation).
+ * '''Help Translating''': Translate MoinMoin to new languages (MoinMoin:MoinDev/Translation)
+ * '''Design Themes''': Create styles and icons (MoinMoin:MoinDev/ThemeDevelopment)
+ * '''Build packages''': HelpOnPackageInstaller
+----
