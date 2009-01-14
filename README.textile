@@ -1,0 +1,48 @@
+Moingo is a quick config hack on Moin Moin Desktop Edition (MMDE),
+mostly by adding a wikiconfig_local.py file, to look for wiki page data
+in separate sibling directories.  These files in these sibling page data 
+directories can be checked into your favorite source code control systems
+independently from moingo.
+
+To get and install moingo, you just need python.
+And, do a 'git clone [git-repo-URL-where-moingo-lives]'.
+
+After that, you should have a moingo directory, which is all 
+ready to run with no extra install steps.
+
+Moingo expects wiki page data to live in sibling directories, for example...
+
+  /some_directory
+    /moingo          -- the directory you checked out with git
+      README         -- moin moin's standard README
+      README.textile -- this README.textile file
+      wikiserver.py
+      /wiki
+      [more moin moin files]
+    /wiki_personal
+    /wiki_intranet
+
+To make your own sibling wiki page data directories...
+
+  cd some_directory/moingo
+  cp -R wiki ../[your_new_wiki]
+
+For example...
+
+  cd some_directory/moingo
+  cp -R wiki ../wiki_personal
+
+You can start moingo by...
+
+  cd some_directory/moingo
+  python wikiserver.py wiki_personal
+
+Another example...
+
+  cd some_directory/moingo
+  python wikiserver.py wiki_intranet
+
+The idea is that wiki_personal, wiki_intranet, wiki_family, etc 
+just need to be sibling directories to moingo, and can be checked 
+in separately into git or sccs.
+     
