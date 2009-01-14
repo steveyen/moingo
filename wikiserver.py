@@ -26,6 +26,7 @@ os.chdir(moinpath)
 #    You also don't need this if you are happy with the builtin defaults.
 #    See wiki/config/logging/... for some sample config files.
 from MoinMoin import log
+
 log.load_config('wikiserverlogging.conf')
 
 # Debug mode - show detailed error reports
@@ -34,6 +35,10 @@ log.load_config('wikiserverlogging.conf')
 from MoinMoin.script import MoinScript
 
 if __name__ == '__main__':
-    sys.argv = ["moin.py", "server", "standalone"]
-    MoinScript().run()
+    # sys.argv = ["moin.py", "server", "standalone"]
+    # MoinScript().run()
+    #
+    # Cleaner version that doesn't pollute sys.argv -- steve.yen
+    #
+    MoinScript(["server", "standalone"]).run()
 
