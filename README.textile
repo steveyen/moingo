@@ -1,14 +1,21 @@
-Moingo is a quick config hack on Moin Moin Desktop Edition (MMDE),
-mostly by adding a wikiconfig_local.py file, to look for wiki page data
-in separate sibling directories.  These files in these sibling page data 
-directories can be checked into your favorite source code control systems
-independently from moingo.
+Moingo is Moin Moin for the road, or "Moin Moin To Go"
 
-To get and install moingo, you just need python.
+It's essentially Moin Moin Desktop Edition (MMDE), but configured
+so I can more easily store Moin Moin's wiki data into an SCCS
+like git/github.
+
+The goal is to be able to share and synchronize a Moin Moin wiki 
+with a distributed, occasionally-offline team, using distributed
+version control as the synchronization mechanism.
+
+INSTALL and RUNNING
+
+To get and install Moingo, you just need python and git.
 And, do a 'git clone [git-repo-URL-where-moingo-lives]'.
 
 For example...
 
+  mkdir some_directory
   cd some_directory
   git clone git://github.com/steveyen/moingo.git
 
@@ -24,8 +31,8 @@ Moingo expects wiki page data to live in sibling directories, for example...
       wikiserver.py
       /wiki
       [more moin moin files]
-    /wiki_personal
-    /wiki_intranet
+    /wiki_personal   -- a sibling directory holding a personal wiki
+    /wiki_intranet   -- a sibling directory holding a team intranet wiki
 
 To make your own sibling wiki page data directories...
 
@@ -49,3 +56,23 @@ The idea is that wiki_personal, wiki_intranet, wiki_family, etc
 just need to be sibling directories to moingo, and can be checked 
 in separately into git or sccs.
      
+Then, point your browser at this URL and wiki away...
+
+  http://127.0.0.1:8080
+
+Assuming that your sibling page directory is checked into git,
+you can use the sync.rb script (you'll need ruby) to
+pull down changes from a shared repository, merge your changes,
+and push back to the shared repository.  The synchronization
+strategy for sync.rb is dumb and simple right now: your local
+changes win, so it's best to sync often.  To use it, just...
+
+  cd some_directory/wiki_intranet
+  ./sync.rb "some optional checkin msg"
+
+Checking Moin Moin wiki page data into git isn't the best fit.
+Moin Moin stores each page revision as a separate file, which
+goes against the grain for how to use git, but I had a lot of
+old pages in Moin Moin that I wanted to keep on using --
+so, now there's Moingo.
+
