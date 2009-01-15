@@ -7,7 +7,12 @@ independently from moingo.
 To get and install moingo, you just need python.
 And, do a 'git clone [git-repo-URL-where-moingo-lives]'.
 
-After that, you should have a moingo directory, which is all 
+For example...
+
+  cd some_directory
+  git clone git://github.com/steveyen/moingo.git
+
+After that, you should have a moingo subdirectory, which is all 
 ready to run with no extra install steps.
 
 Moingo expects wiki page data to live in sibling directories, for example...
@@ -24,23 +29,21 @@ Moingo expects wiki page data to live in sibling directories, for example...
 
 To make your own sibling wiki page data directories...
 
-  cd some_directory/moingo
-  cp -R wiki ../[your_new_wiki]
+  cd some_directory
+  cp -R moingo/wiki [your_new_wiki]
 
 For example...
 
-  cd some_directory/moingo
-  cp -R wiki ../wiki_personal
+  cd some_directory
+  cp -R moingo/wiki wiki_personal
 
 You can start moingo by...
 
-  cd some_directory/moingo
-  python wikiserver.py wiki_personal
+  python moingo/wikiserver.py wiki_personal
 
 Another example...
 
-  cd some_directory/moingo
-  python wikiserver.py wiki_intranet
+  python moingo/wikiserver.py wiki_intranet
 
 The idea is that wiki_personal, wiki_intranet, wiki_family, etc 
 just need to be sibling directories to moingo, and can be checked 
