@@ -68,7 +68,7 @@ strategy for sync.rb is dumb and simple right now: your local
 changes win, so it's best to sync often.  To use it, just...
 
   cd some_directory/wiki_intranet
-  ./sync.rb "some optional checkin msg"
+  ./sync.rb "some informative checkin message"
 
 Checking Moin Moin wiki page data into git isn't the best fit.
 Moin Moin stores each page revision as a separate file, which
